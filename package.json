@@ -1,0 +1,16 @@
+{
+  "name": "sumiml",
+  "version": "0.1.0",
+  "description": "markup language",
+  "author": "toyskip725",
+  "private": true,
+  "workspaces": [
+    "packages/core"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.5.5",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
+  }
+}

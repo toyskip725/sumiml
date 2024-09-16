@@ -1,0 +1,9 @@
+{
+  "name": "@sumiml/core",
+  "version": "0.1.0",
+  "type": "module",
+  "author": "toyskip725",
+  "scripts": {
+    "test": "vitest"
+  }
+}
