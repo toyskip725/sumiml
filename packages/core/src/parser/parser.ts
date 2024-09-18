@@ -1,11 +1,11 @@
 type ParseSuccessOutput<T> = {
-  result: "success";
+  status: "success";
   data: T;
   rest: string;
 };
 
 type ParseFailOutput = {
-  result: "fail";
+  status: "fail";
 };
 
 export type ParseOutput<T> = ParseSuccessOutput<T> | ParseFailOutput;

@@ -13,7 +13,7 @@ describe("character", () => {
     
     // Assert
     expect(output).toEqual<ParseOutput<string>>({
-      result: "success",
+      status: "success",
       data: "<",
       rest: "SumiML />",
     });
@@ -29,7 +29,7 @@ describe("character", () => {
     
     // Assert
     expect(output).toEqual<ParseOutput<string>>({
-      result: "fail",
+      status: "fail",
     });
   });
 
@@ -43,7 +43,7 @@ describe("character", () => {
     
     // Assert
     expect(output).toEqual<ParseOutput<string>>({
-      result: "fail",
+      status: "fail",
     });
   })
 })
