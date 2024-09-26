@@ -1,9 +1,10 @@
 import { Parser } from "../parser/parser";
-import regexp from "../parser/regexp";
 import str from "../parser/str";
 import openingTag from "./openingTag";
+import textContent from "./textContent";
 
 export type MarkupNode = {
+  type: "markup",
   tagname: string;
   attributes: Record<string, string>;
   content: string;
@@ -21,7 +22,7 @@ function markup(targetTag?: string): Parser<MarkupNode> {
       };
     }
 
-    const content = regexp(/[^<]*/g)(openTag.rest);
+    const content = textContent(openTag.rest);
     if(content.status === "fail") {
       return content;
     }
@@ -33,7 +34,12 @@ function markup(targetTag?: string): Parser<MarkupNode> {
 
     return {
       status: "success",
-      data: {...openTag.data, content: content.data},
+      data: {
+        type: "markup",
+        tagname: openTag.data.tagname,
+        attributes: openTag.data.attributes,
+        content: content.data.content
+      },
       rest: closingTag.rest,
     };
   };

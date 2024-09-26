@@ -15,6 +15,7 @@ describe("markup", () => {
     expect(output).toEqual<ParseOutput<MarkupNode>>({
       status: "success",
       data: {
+        type: "markup",
         tagname: "Sample",
         attributes: {
           title: "test",
@@ -37,6 +38,7 @@ describe("markup", () => {
     expect(output).toEqual<ParseOutput<MarkupNode>>({
       status: "success",
       data: {
+        type: "markup",
         tagname: "Sample",
         attributes: {
           title: "test",
