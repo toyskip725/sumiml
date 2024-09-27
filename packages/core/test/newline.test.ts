@@ -5,7 +5,7 @@ import newline, { NewLineNode } from '../src/syntax/newline';
 describe("newline", () => {
   test("success1", () => {
     // Arrange
-    const sample1 = "\n\nabc";
+    const sample1 = "\r\n\r\nabc";
 
     // Act
     const output = newline(sample1);

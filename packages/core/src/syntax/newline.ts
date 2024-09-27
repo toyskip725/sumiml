@@ -5,7 +5,7 @@ export type NewLineNode = {
   type: "newline",
 };
 
-const newline = map(str("\n\n"), (_output: string) => {
+const newline = map(str("\r\n\r\n"), (_output: string) => {
   return {
     type: "newline",
   } as NewLineNode;
