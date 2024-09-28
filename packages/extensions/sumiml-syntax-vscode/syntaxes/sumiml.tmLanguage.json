@@ -1,0 +1,57 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "SumiML",
+	"patterns": [
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#keywords"
+    },
+		{
+			"include": "#entity"
+		},
+    {
+      "include": "#support"
+    },
+		{
+			"include": "#strings"
+		}
+	],
+	"repository": {
+    "comment": {
+      "patterns": [
+        {
+          "include": "#directive"
+        }
+      ]
+    },
+    "directive": {
+      "name": "comment.line.directive.sumiml",
+      "match": "<SumiML version=\"\\d+\\.\\d+\" />"
+    },
+    "entity": {
+      "patterns": [
+        {
+          "include": "#any"
+        }
+      ]
+    },
+    "any": {
+      "name": "entity.name.tag.sumiml",
+      "match": "(?<=(\\<|\\<\\/))[A-Z][a-z]+(?=(\\s|\\>))"
+    },
+		"strings": {
+			"name": "string.quoted.double.sumiml",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.sumiml",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.suml"
+}

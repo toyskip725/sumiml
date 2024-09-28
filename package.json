@@ -5,7 +5,8 @@
   "author": "toyskip725",
   "private": true,
   "workspaces": [
-    "packages/core"
+    "packages/core",
+    "packages/extensions/sumiml-syntax-vscode"
   ],
   "devDependencies": {
     "@types/node": "^22.5.5",
