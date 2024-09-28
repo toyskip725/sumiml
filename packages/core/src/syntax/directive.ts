@@ -5,7 +5,7 @@ import regexp from "../parser/regexp";
 import str from "../parser/str";
 import whitespace from "../parser/whitespace";
 
-export type DirectiveSyntaxTreeNode = {
+export type DirectiveNode = {
   type: "directive";
   version: string;
 };
@@ -19,18 +19,12 @@ const directiveInternal = concat([
   character(">")
 ]);
 
-const directive = map(directiveInternal, (output => {
-  if (output[2] === null) {
-    return {
-      status: "fail",
-    };
-  }
-  
-  const version = output[2].replace("\"", "").replace("\"", "");
+const directive = map(directiveInternal, (output => {  
+  const version = output[2]?.replace("\"", "").replace("\"", "");
   return {
     type: "directive",
     version: version,
-  } as DirectiveSyntaxTreeNode;
+  } as DirectiveNode;
 }));
 
 export default directive;
