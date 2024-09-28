@@ -14,7 +14,7 @@ export type OpeningTag = {
 
 const openingTagInternal = concat<string | AttributeSequence[][]>([
   character("<"),
-  regexp(/[^>\s]+/g),
+  regexp(/^[^>\s]+/g),
   many(concat<AttributeSequence>([whitespace(), attribute])),
   character(">"),
 ]);
