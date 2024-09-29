@@ -7,7 +7,7 @@
     "vscode": "^1.93.0"
   },
   "categories": [
-    "Programming Languages"
+    "Programming Languages", "Snippets"
   ],
   "contributes": {
     "languages": [{
@@ -20,6 +20,12 @@
       "language": "sumiml",
       "scopeName": "source.suml",
       "path": "./syntaxes/sumiml.tmLanguage.json"
-    }]
+    }],
+    "snippets": [
+      {
+        "language": "sumiml",
+        "path": "./snippets/sumiml.snippet.json"
+      }
+    ]
   }
 }

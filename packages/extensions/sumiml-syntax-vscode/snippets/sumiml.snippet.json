@@ -1,0 +1,24 @@
+{
+  "SumiML directive": {
+		"prefix": "sumiml",
+		"body": [
+			"<SumiML version=\"1.0\" />",
+      "<Frontmatter>",
+      "",
+      "</Frontmatter>",
+      "<Document>",
+      "",
+      "</Document>"
+		],
+		"description": "starts writing SumiML document"
+	},
+  "SumiML Section": {
+    "prefix": "section",
+    "body": [
+      "<Section title=\"$1\">",
+      "$0",
+      "</Section>"
+    ],
+    "description": "add a section"
+  }
+}
