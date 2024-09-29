@@ -1,32 +1,32 @@
 import { test, expect, describe } from 'vitest';
-import { ParseOutput } from '../src/parser/parser';
-import str from '../src/parser/str';
+import character from '../../src/parser/character';
+import { ParseOutput } from '../../src/parser/parser';
 
-describe("str", () => {
+describe("character", () => {
   test("success1", () => {
     // Arrange
-    const sample1 = "abcde";
-    const parser = str("abc");
-
+    const sample1 = "<SumiML />";
+    const parser = character("<");
+    
     // Act
     const output = parser(sample1);
-
+    
     // Assert
     expect(output).toEqual<ParseOutput<string>>({
       status: "success",
-      data: "abc",
-      rest: "de",
+      data: "<",
+      rest: "SumiML />",
     });
   });
 
   test("fail1", () => {
     // Arrange
-    const sample2 = "ab";
-    const parser = str("abc");
-
+    const sample2 = "abc";
+    const parser = character("<");
+    
     // Act
     const output = parser(sample2);
-
+    
     // Assert
     expect(output).toEqual<ParseOutput<string>>({
       status: "fail",
@@ -34,16 +34,17 @@ describe("str", () => {
   });
 
   test("fail2", () => {
-    // Arrage
-    const sample3 = "abxyzw";
-    const parser = str("abc");
-
+    // Arrange
+    const sample3 = "abc";
+    const parser = character("ab");
+    
     // Act
     const output = parser(sample3);
-
+    
     // Assert
     expect(output).toEqual<ParseOutput<string>>({
       status: "fail",
     });
-  });
-});
+  })
+})
+

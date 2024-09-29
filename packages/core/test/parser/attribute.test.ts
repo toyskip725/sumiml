@@ -1,6 +1,6 @@
 import { test, expect, describe } from 'vitest';
-import { ParseOutput } from '../src/parser/parser';
-import attribute, { type Attribute } from '../src/syntax/attribute';
+import { ParseOutput } from '../../src/parser/parser';
+import attribute, { type Attribute } from '../../src/syntax/attribute';
 
 describe("attribute", () => {
   const parser = attribute;

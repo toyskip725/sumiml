@@ -1,6 +1,6 @@
 import { test, expect, describe } from 'vitest';
-import { ParseOutput } from '../src/parser/parser';
-import textContent, { TextContentNode } from '../src/syntax/textContent';
+import { ParseOutput } from '../../src/parser/parser';
+import textContent, { TextContentNode } from '../../src/syntax/textContent';
 
 describe("text", () => {
   test("success1", () => {

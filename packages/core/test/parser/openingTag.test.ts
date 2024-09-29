@@ -1,6 +1,6 @@
 import { test, expect, describe } from 'vitest';
-import { ParseOutput } from '../src/parser/parser';
-import openingTag, { OpeningTag } from '../src/syntax/openingTag';
+import { ParseOutput } from '../../src/parser/parser';
+import openingTag, { OpeningTag } from '../../src/syntax/openingTag';
 
 describe("openingTag", () => {
   test("success1", () => {
