@@ -4,6 +4,8 @@ import frontmatter from "./frontmatter";
 import document from "./document";
 import { ScopeNode } from "./scope";
 import map from "../parser/map";
+import { ParseTagSpecs } from "./specs";
+import { Parser } from "../parser/parser";
 
 export type RootContentNode = DirectiveNode | ScopeNode;
 export type RootNode = {
@@ -11,17 +13,19 @@ export type RootNode = {
   children: Array<RootContentNode>;
 };
 
-const rootInternal = concat<RootContentNode>([
-  directive,
-  frontmatter,
-  document,
-]);
+function root (specs: ParseTagSpecs): Parser<RootNode> {
+  const rootInternal = concat<RootContentNode>([
+    directive,
+    frontmatter,
+    document(specs),
+  ]);
 
-const root = map(rootInternal, (output: RootContentNode[]) => {
-  return {
-    type: "root",
-    children: output,
-  } as RootNode;
-});
+  return map(rootInternal, (output: RootContentNode[]) => {
+    return {
+      type: "root",
+      children: output,
+    } as RootNode;
+  });
+}
 
 export default root;

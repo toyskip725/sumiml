@@ -9,7 +9,11 @@ describe("root: html generator", () => {
   test("success1", async () => {
     // Arrange
     const input = await readFile(`${process.cwd()}/packages/core/example/sample1.suml`, { encoding: 'utf8' });
-    const node = root(input.replace(/\r\n/g, "").replace(/"/g, "\""));
+    const parser = root({
+      scope: ["Section"],
+      markup: ["Bold"],
+    });
+    const node = parser(input.replace(/\r\n/g, "").replace(/"/g, "\""));
     if (node.status === "fail") {
       return;
     }
