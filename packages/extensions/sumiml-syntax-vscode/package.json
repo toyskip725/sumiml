@@ -1,0 +1,31 @@
+{
+  "name": "sumiml-syntax-vscode",
+  "displayName": "SumiML Syntax",
+  "description": "Provides SumiML Syntax support",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Programming Languages", "Snippets"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "sumiml",
+      "aliases": ["SumiML", "sumiml"],
+      "extensions": [".suml"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "sumiml",
+      "scopeName": "source.suml",
+      "path": "./syntaxes/sumiml.tmLanguage.json"
+    }],
+    "snippets": [
+      {
+        "language": "sumiml",
+        "path": "./snippets/sumiml.snippet.json"
+      }
+    ]
+  }
+}
