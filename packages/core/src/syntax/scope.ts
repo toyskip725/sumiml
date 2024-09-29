@@ -5,6 +5,7 @@ import str from "../parser/str";
 import markup, { MarkupNode } from "./markup";
 import newline, { NewLineNode } from "./newline";
 import openingTag from "./openingTag";
+import { ParseTagSpecs } from "./specs";
 import textContent, { TextContentNode } from "./textContent";
 
 export type ScopeContentNode = NewLineNode | TextContentNode | MarkupNode | ScopeNode;
@@ -15,26 +16,28 @@ export type ScopeNode = {
   children: Array<ScopeContentNode>;
 };
 
-const scopeContent = many(or<ScopeContentNode>([
+const scopeContent = (specs?: ParseTagSpecs) => many(or<ScopeContentNode>([
   newline,
   textContent, 
-  markup(),
-  scope(),
+  markup(undefined, specs),
+  scope(undefined, specs),
 ]));
 
-function scope(targetTag?: string): Parser<ScopeNode> {
+function scope(targetTag?: string, specs?: ParseTagSpecs): Parser<ScopeNode> {
+
   return (input: string) => {
     const openTag = openingTag(input);
     if(openTag.status === "fail") {
       return openTag;
     }
+
     if (targetTag !== undefined && openTag.data.tagname !== targetTag) {
       return {
         status: "fail",
       };
     }
 
-    const content = scopeContent(openTag.rest);
+    const content = scopeContent(specs)(openTag.rest);
     if(content.status === "fail") {
       return content;
     }
