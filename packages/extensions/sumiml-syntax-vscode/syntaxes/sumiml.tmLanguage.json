@@ -3,55 +3,60 @@
 	"name": "SumiML",
 	"patterns": [
     {
-      "include": "#comment"
+      "include": "#directive"
     },
     {
-      "include": "#keywords"
+      "include": "#tag"
     },
-		{
-			"include": "#entity"
-		},
     {
-      "include": "#support"
+      "include": "#attribute"
     },
 		{
-			"include": "#strings"
+			"include": "#info"
 		}
 	],
 	"repository": {
-    "comment": {
-      "patterns": [
-        {
-          "include": "#directive"
-        }
-      ]
-    },
     "directive": {
       "name": "comment.line.directive.sumiml",
       "match": "<SumiML version=\"\\d+\\.\\d+\" />"
     },
-    "entity": {
-      "patterns": [
-        {
-          "include": "#any"
-        }
-      ]
-    },
-    "any": {
+    "tag": {
       "name": "entity.name.tag.sumiml",
       "match": "(?<=(\\<|\\<\\/))[A-Z][a-z]+(?=(\\s|\\>))"
     },
-		"strings": {
-			"name": "string.quoted.double.sumiml",
-			"begin": "\"",
-			"end": "\"",
-			"patterns": [
-				{
-					"name": "constant.character.escape.sumiml",
-					"match": "\\\\."
-				}
-			]
-		}
+    "attribute": {
+      "match": "(\\s[a-z]+)(\\=)(\"[^\"]+\")",
+      "captures": {
+        "1": {
+          "name": "entity.other.attribute-name.sumiml"
+        },
+        "2": {
+          "name": "punctuation.separator.sumiml"
+        },
+        "3": {
+          "name": "string.quoted.double"
+        }
+      }
+    },
+    "info": {
+      "begin": "<Frontmatter>",
+      "end": "</Frontmatter>",
+      "match": "([a-z]+)(:)(\\s)(.+)",
+      "captures": {
+        "1": {
+          "name": "entity.other.attribute-name"
+        },
+        "2": {
+          "name": "puctuation.separator.sumiml"
+        },
+        "3": {
+          "name": "puctuation.space.sumiml"
+        },
+        "4": {
+          "name": "string.yaml.sumiml"
+        }
+      }
+    }
 	},
 	"scopeName": "source.suml"
 }
