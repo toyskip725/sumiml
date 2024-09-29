@@ -7,7 +7,7 @@ import newline, { NewLineNode } from "./newline";
 import openingTag from "./openingTag";
 import textContent, { TextContentNode } from "./textContent";
 
-type ScopeContentNode = NewLineNode | TextContentNode | MarkupNode | ScopeNode;
+export type ScopeContentNode = NewLineNode | TextContentNode | MarkupNode | ScopeNode;
 export type ScopeNode = {
   type: "scope",
   tagname: string;
