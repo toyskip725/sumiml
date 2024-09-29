@@ -1,6 +1,6 @@
 import { test, expect, describe } from 'vitest';
-import { ParseOutput } from '../src/parser/parser';
-import directive, { DirectiveSyntaxTreeNode } from '../src/syntax/directive';
+import { ParseOutput } from '../../src/parser/parser';
+import directive, { DirectiveNode } from '../../src/syntax/directive';
 
 describe("directive", () => {
   test("success1", () => {
@@ -11,7 +11,7 @@ describe("directive", () => {
     const output = directive(sample1);
 
     // Assert
-    expect(output).toEqual<ParseOutput<DirectiveSyntaxTreeNode>>({
+    expect(output).toEqual<ParseOutput<DirectiveNode>>({
       status: "success",
       data: {
         type: "directive",
@@ -29,7 +29,7 @@ describe("directive", () => {
     const output = directive(sample2);
 
     // Assert
-    expect(output).toEqual<ParseOutput<DirectiveSyntaxTreeNode>>({
+    expect(output).toEqual<ParseOutput<DirectiveNode>>({
       status: "fail",
     });
   });

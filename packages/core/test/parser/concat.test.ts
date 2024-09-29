@@ -1,7 +1,7 @@
 import { test, expect, describe } from 'vitest';
-import { ParseOutput } from '../src/parser/parser';
-import character from '../src/parser/character';
-import concat from '../src/parser/concat';
+import { ParseOutput } from '../../src/parser/parser';
+import character from '../../src/parser/character';
+import concat from '../../src/parser/concat';
 
 describe("concat", () => {
   test("success1", () => {

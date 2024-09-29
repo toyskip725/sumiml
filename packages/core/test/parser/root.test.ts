@@ -1,7 +1,7 @@
 import { test, expect, describe } from 'vitest';
-import { ParseOutput } from '../src/parser/parser';
+import { ParseOutput } from '../../src/parser/parser';
 import { readFile } from 'fs/promises';
-import root from '../src/syntax/root';
+import root from '../../src/syntax/root';
 
 describe("root", () => {
   test("success1", async () => {

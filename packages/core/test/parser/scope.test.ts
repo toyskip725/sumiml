@@ -1,6 +1,6 @@
 import { test, expect, describe } from 'vitest';
-import { ParseOutput } from '../src/parser/parser';
-import scope, { ScopeNode } from '../src/syntax/scope';
+import { ParseOutput } from '../../src/parser/parser';
+import scope, { ScopeNode } from '../../src/syntax/scope';
 
 describe("scope", () => {
   test("success1", () => {

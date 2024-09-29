@@ -1,6 +1,6 @@
 import { test, expect, describe } from 'vitest';
-import { ParseOutput } from '../src/parser/parser';
-import whitespace from '../src/parser/whitespace';
+import { ParseOutput } from '../../src/parser/parser';
+import whitespace from '../../src/parser/whitespace';
 
 describe("whitespace", () => {
   const parser = whitespace();

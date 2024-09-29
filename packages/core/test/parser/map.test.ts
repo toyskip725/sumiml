@@ -1,7 +1,7 @@
 import { test, expect, describe } from 'vitest';
-import { ParseOutput } from '../src/parser/parser';
-import character from '../src/parser/character';
-import map from '../src/parser/map';
+import { ParseOutput } from '../../src/parser/parser';
+import character from '../../src/parser/character';
+import map from '../../src/parser/map';
 
 describe("map", () => {
   test("success1", () => {

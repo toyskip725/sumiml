@@ -1,6 +1,6 @@
 import { test, expect, describe } from 'vitest';
-import { ParseOutput } from '../src/parser/parser';
-import newline, { NewLineNode } from '../src/syntax/newline';
+import { ParseOutput } from '../../src/parser/parser';
+import newline, { NewLineNode } from '../../src/syntax/newline';
 
 describe("newline", () => {
   test("success1", () => {
