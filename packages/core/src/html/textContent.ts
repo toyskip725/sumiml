@@ -5,7 +5,7 @@ const htmlTextContent: HTMLGenerator<TextContentNode> = (node: TextContentNode) 
   return {
     status: "success",
     meta: {},
-    html: `<p>${node.content}</p>`,
+    html: `${node.content}`,
   };
 };
 
