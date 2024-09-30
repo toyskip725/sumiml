@@ -1,11 +1,11 @@
-import { HTMLGenerator, HTMLGeneratorFactory } from "../generator/generator";
+import { HTMLGenerator, HTMLGeneratorFactory, HTMLReducerGenerator } from "../generator/generator";
 import { MarkupNode } from "../syntax/markup";
 import { RootNode } from "../syntax/root";
 import { ScopeContentNode, ScopeNode } from "../syntax/scope";
 import htmlScope from "./scope";
 
 type Props = {
-  scope: Record<string, HTMLGeneratorFactory<ScopeContentNode, ScopeNode>>, 
+  scope: Record<string, HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeContentNode>>>,
   markup: Record<string, HTMLGenerator<MarkupNode>>
 };
 
