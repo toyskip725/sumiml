@@ -6,7 +6,7 @@ export type TextContentNode = {
   content: string;
 };
 
-const textContent = map(regexp(/^[^<(!?\r\n\r\n)]+/g), (output: string) => {
+const textContent = map(regexp(/^[^<(\r\n\r\n)]+/g), (output: string) => {
   return {
     type: "text",
     content: output,
