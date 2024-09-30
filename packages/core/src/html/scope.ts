@@ -1,38 +1,93 @@
-import { HTMLGenerator, HTMLGeneratorFactory } from "../generator/generator";
+import { GeneratorOutput, HTMLGenerator, HTMLGeneratorFactory, HTMLOutput, HTMLReducerGenerator } from "../generator/generator";
 import { MarkupNode } from "../syntax/markup";
 import { ScopeContentNode, ScopeNode } from "../syntax/scope";
+import { TextContentNode } from "../syntax/textContent";
 import htmlMarkup from "./markup";
 import htmlTextContent from "./textContent";
 
+export const classifyNodes = (nodes: ScopeContentNode[]) :ScopeContentNode[][] => {
+  const result: ScopeContentNode[][]  = [[]];
+  let index = 0;
+  for (let child of nodes) {
+    if (child.type === "text" || child.type === "markup") {
+      result[index].push(child);
+    } else if (child.type === "scope") {
+      if (result[index].length !== 0) {
+        index++;
+        result.push([]);
+      }
+      result[index].push(child);
+    } else {
+      if (result[index].length !== 0) {
+        index++;
+        result.push([]);
+      }
+    }
+  }
+
+  return result;
+};
+
 function htmlScope(
-  scopeGenerators: Record<string, HTMLGeneratorFactory<ScopeContentNode, ScopeNode>>, 
+  scopeGenerators: Record<string, HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeContentNode>>>, 
   markupGenerators: Record<string, HTMLGenerator<MarkupNode>>
 ): HTMLGenerator<ScopeNode> {
-  const htmlScopeContent: HTMLGenerator<ScopeContentNode> = (node: ScopeContentNode) => {
-    switch(node.type) {
-      case "newline":
-        throw new Error("not implemented");
-      case "text":
-        return htmlTextContent(node);
-      case "markup":
-        return htmlMarkup(markupGenerators)(node);
-      case "scope":
-        return htmlScope(scopeGenerators, markupGenerators)(node);
+  const htmlTextMarkup: HTMLGenerator<TextContentNode | MarkupNode> = (node: TextContentNode | MarkupNode) => {
+    if (node.type === "text") {
+      return htmlTextContent(node);
     }
+
+    return htmlMarkup(markupGenerators)(node);
+  };
+
+  const generateScopeContent: HTMLReducerGenerator<ScopeContentNode> = (nodes: ScopeContentNode[]) => {
+    if (nodes[0].type === "text" || nodes[0].type === "markup") {
+      const htmlOutput = nodes.map(node => htmlTextMarkup(node as TextContentNode | MarkupNode));
+      const success = htmlOutput.filter(output => output.status === "success");
+      const fail = htmlOutput.filter(output => output.status === "fail");
+      
+      if (fail.length !== 0) {
+        return {
+          status: "fail",
+          message: fail.map(output => output.message).join("\r\n"),
+        } as GeneratorOutput<HTMLOutput>;
+      }
+
+      return {
+        status: "success",
+        meta: {},
+        html: `<p>${success.map(output => output.html).join("")}</p>`,
+      } as GeneratorOutput<HTMLOutput>;
+    }
+
+    const htmlOutput = nodes.map(node => htmlScope(scopeGenerators, markupGenerators)(node as ScopeNode));
+    const success = htmlOutput.filter(output => output.status === "success");
+    const fail = htmlOutput.filter(output => output.status === "fail");
+    
+    if (fail.length !== 0) {
+      return {
+        status: "fail",
+        message: fail.map(output => output.message).join("\r\n"),
+      } as GeneratorOutput<HTMLOutput>;
+    }
+
+    return {
+      status: "success",
+      meta: {},
+      html: `${success.map(output => output.html).join("")}`,
+    } as GeneratorOutput<HTMLOutput>;
   };
 
   return (node: ScopeNode) => {
     for (let keyword in scopeGenerators) {
       if (node.tagname === keyword) {
-        return scopeGenerators[keyword](htmlScopeContent)(node);
+        return scopeGenerators[keyword](generateScopeContent)(node);
       }
     }
 
-    const childrenHtmlOutput = node.children.map(child => {
-      return htmlScopeContent(child);
-    });
-    const success = childrenHtmlOutput.filter(output => output.status === "success");
-    const fail = childrenHtmlOutput.filter(output => output.status === "fail");
+    const htmlOutput = classifyNodes(node.children).map(group => generateScopeContent(group));
+    const success = htmlOutput.filter(output => output.status === "success");
+    const fail = htmlOutput.filter(output => output.status === "fail");
 
     if(fail.length !== 0) {
       return {

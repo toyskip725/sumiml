@@ -1,7 +1,10 @@
-import { HTMLGenerator, HTMLGeneratorFactory } from "../generator/generator";
+import { HTMLGeneratorFactory, HTMLReducerGenerator } from "../generator/generator";
 import { ScopeContentNode, ScopeNode } from "../syntax/scope";
+import { classifyNodes } from "./scope";
 
-const htmlSection: HTMLGeneratorFactory<ScopeContentNode, ScopeNode> = (generator: HTMLGenerator<ScopeContentNode>) => {
+const htmlSection: HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeContentNode>> = (
+  generator: HTMLReducerGenerator<ScopeContentNode>
+) => {
   return (node: ScopeNode) => {
     if (node.attributes.title === undefined) {
       return {
@@ -10,11 +13,9 @@ const htmlSection: HTMLGeneratorFactory<ScopeContentNode, ScopeNode> = (generato
       };
     }
 
-    const childrenHtmlOutput = node.children.map(child => {
-      return generator(child);
-    });
-    const success = childrenHtmlOutput.filter(output => output.status === "success");
-    const fail = childrenHtmlOutput.filter(output => output.status === "fail");
+    const htmlOutput = classifyNodes(node.children).map(nodes => generator(nodes));
+    const success = htmlOutput.filter(output => output.status === "success");
+    const fail = htmlOutput.filter(output => output.status === "fail");
 
     if(fail.length !== 0) {
       return {
