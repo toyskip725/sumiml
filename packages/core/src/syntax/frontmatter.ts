@@ -2,12 +2,11 @@ import { Parser } from "../parser/parser";
 import regexp from "../parser/regexp";
 import str from "../parser/str";
 import openingTag from "./openingTag";
-import textContent from "./textContent";
 import YAML from "yaml";
 
 export type FrontmatterNode = {
   type: "frontmatter";
-  attributes: unknown;
+  attributes: Record<string, unknown>;
 };
 
 const frontmatter: Parser<FrontmatterNode> = (input: string) => {
@@ -36,7 +35,7 @@ const frontmatter: Parser<FrontmatterNode> = (input: string) => {
     status: "success",
     data: {
       type: "frontmatter",
-      attributes: contentAsYaml as unknown,
+      attributes: contentAsYaml as Record<string, unknown>,
     },
     rest: closingTag.rest,
   };
