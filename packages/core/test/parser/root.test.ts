@@ -1,5 +1,4 @@
 import { test, expect, describe } from 'vitest';
-import { ParseOutput } from '../../src/parser/parser';
 import { readFile } from 'fs/promises';
 import root from '../../src/syntax/root';
 
@@ -13,7 +12,7 @@ describe("root", () => {
     });
     
     // Act
-    const output = parser(input.replace(/\r\n/g, "").replace(/"/g, "\""));
+    const output = parser(input.replace(/"/g, "\""));
 
     // Assert
     expect(output.status).toBe("success");
