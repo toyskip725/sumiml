@@ -13,32 +13,25 @@ function htmlRoot({ scope, markup }: Props): HTMLGenerator<RootNode> {
   const generator = htmlScope(scope, markup);
 
   return (node: RootNode) => {
-    const metainfo: Record<string, string> = {};
-    const childrenHtmlOutput = [];
+    const metainfo: Record<string, unknown> = {};
 
-    for (let child of node.children) {
-      if (child.type === "directive") {
-        metainfo.version = child.version;
-        continue;
-      }
-
-      childrenHtmlOutput.push(generator(child));
+    // directive
+    metainfo.version = node.version;
+    // frontmatter
+    for (let key in node.frontmatter) {
+      metainfo[key] = node.frontmatter[key];
     }
+    // document
+    const document = generator(node.content);
 
-    const success = childrenHtmlOutput.filter(output => output.status === "success");
-    const fail = childrenHtmlOutput.filter(output => output.status === "fail");
-
-    if(fail.length !== 0) {
-      return {
-        status: "fail",
-        message: fail.map(output => output.message).join("\r\n"),
-      };
+    if (document.status === "fail") {
+      return document;
     }
 
     return {
       status: "success",
       meta: metainfo,
-      html: success.map(output => output.html).join(""),
+      html: document.html,
     };
   };
 }

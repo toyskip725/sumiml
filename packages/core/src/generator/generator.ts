@@ -7,7 +7,7 @@ type NodeType = {
 };
 type GeneratorSuccessOutput<T extends Record<string, string>> = T & {
   status: "success";
-  meta: Record<string, string>;
+  meta: Record<string, unknown>;
 };
 type GeneratorFailOutput = {
   status: "fail";
