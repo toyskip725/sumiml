@@ -13,7 +13,7 @@ describe("root: html generator", () => {
       scope: ["Section"],
       markup: ["Bold"],
     });
-    const node = parser(input.replace(/\r\n/g, "").replace(/"/g, "\""));
+    const node = parser(input.replace(/"/g, "\""));
     if (node.status === "fail") {
       return;
     }
