@@ -1,13 +1,13 @@
 import concat from "../parser/concat";
 import directive, { DirectiveNode } from "./directive";
-import frontmatter from "./frontmatter";
+import frontmatter, { FrontmatterNode } from "./frontmatter";
 import document from "./document";
 import { ScopeNode } from "./scope";
 import map from "../parser/map";
 import { ParseTagSpecs } from "./specs";
 import { Parser } from "../parser/parser";
 
-export type RootContentNode = DirectiveNode | ScopeNode;
+export type RootContentNode = DirectiveNode | FrontmatterNode | ScopeNode;
 export type RootNode = {
   type: "root";
   children: Array<RootContentNode>;
