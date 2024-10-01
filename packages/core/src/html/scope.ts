@@ -25,6 +25,10 @@ export const classifyNodes = (nodes: ScopeContentNode[]) :ScopeContentNode[][] =
     }
   }
 
+  if (result[index].length === 0) {
+    result.pop();
+  }
+
   return result;
 };
 
