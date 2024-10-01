@@ -17,7 +17,7 @@ describe("textContent: html generator", () => {
     expect(output).toEqual<GeneratorOutput<HTMLOutput>>({
       status: "success",
       meta: {},
-      html: "<p>abc</p>"
+      html: "abc"
     });
   });
 });

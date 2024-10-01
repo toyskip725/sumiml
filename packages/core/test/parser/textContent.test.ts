@@ -23,7 +23,7 @@ describe("text", () => {
 
   test("success2", () => {
     // Arrange
-    const sample2 = "abc\n\nxyz";
+    const sample2 = "abc\r\n\r\nxyz";
 
     // Act
     const output = textContent(sample2);
@@ -35,7 +35,25 @@ describe("text", () => {
         type: "text",
         content: "abc",
       },
-      rest: "\n\nxyz",
+      rest: "\r\n\r\nxyz",
+    });
+  });
+
+  test("success3", () => {
+    // Arrange
+    const sample3 = "abc\r\nxyz";
+
+    // Act
+    const output = textContent(sample3);
+
+    // Assert
+    expect(output).toEqual<ParseOutput<TextContentNode>>({
+      status: "success",
+      data: {
+        type: "text",
+        content: "abcxyz",
+      },
+      rest: "",
     });
   });
 });

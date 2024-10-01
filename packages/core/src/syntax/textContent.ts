@@ -1,16 +1,47 @@
-import map from "../parser/map";
-import regexp from "../parser/regexp";
+import { Parser } from "../parser/parser";
+import character from "../parser/character";
+import newline from "./newline";
 
 export type TextContentNode = {
   type: "text",
   content: string;
 };
 
-const textContent = map(regexp(/^[^<(\r\n\r\n)]+/g), (output: string) => {
+const textContent: Parser<TextContentNode> = (input: string) => {
+  const tagStartPoint = character("<");
+
+  const data: string[] = [];
+  let rest: string = input;
+  while(true) {
+    if (rest === "") {
+      break;
+    }
+
+    const isNewline = newline(rest);
+    const istagStartPoint = tagStartPoint(rest);
+
+    if (isNewline.status === "success" || istagStartPoint.status === "success") {
+      break;
+    }
+
+    data.push(rest.slice(0, 1));
+    rest = rest.slice(1);
+  }
+
+  if(data.length === 0) {
+    return {
+      status: "fail",
+    };
+  }
+
   return {
-    type: "text",
-    content: output,
-  } as TextContentNode;
-});
+    status: "success",
+    data: {
+      type: "text",
+      content: data.join("").replace(/\r\n/g, ""),
+    },
+    rest: rest,
+  };
+};
 
 export default textContent;
