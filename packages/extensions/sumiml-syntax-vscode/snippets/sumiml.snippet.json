@@ -20,5 +20,23 @@
       "</Section>"
     ],
     "description": "add a section"
+  },
+  "SumiML Subsection": {
+    "prefix": "sub",
+    "body": [
+      "<Subsection title=\"$1\">",
+      "$0",
+      "</Subsection>"
+    ],
+    "description": "add a subsection"
+  },
+  "SumiML Subsubsection": {
+    "prefix": "ssub",
+    "body": [
+      "<Subsubsection title=\"$1\">",
+      "$0",
+      "</Subsubsection>"
+    ],
+    "description": "add a subsubsection"
   }
 }
