@@ -5,5 +5,8 @@
   "author": "toyskip725",
   "scripts": {
     "test": "vitest"
+  },
+  "dependencies": {
+    "yaml": "^2.5.1"
   }
 }

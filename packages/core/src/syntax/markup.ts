@@ -1,6 +1,7 @@
 import { Parser } from "../parser/parser";
 import str from "../parser/str";
 import openingTag from "./openingTag";
+import { ParseTagSpecs } from "./specs";
 import textContent from "./textContent";
 
 export type MarkupNode = {
@@ -10,13 +11,19 @@ export type MarkupNode = {
   content: string;
 };
 
-function markup(targetTag?: string): Parser<MarkupNode> {
+function markup(targetTag?: string, specs?: ParseTagSpecs): Parser<MarkupNode> {
   return (input: string) => {
     const openTag = openingTag(input);
     if(openTag.status === "fail") {
       return openTag;
     }
     if (targetTag !== undefined && openTag.data.tagname !== targetTag) {
+      return {
+        status: "fail",
+      };
+    }
+
+    if (specs !== undefined && specs.scope.includes(openTag.data.tagname)) {
       return {
         status: "fail",
       };

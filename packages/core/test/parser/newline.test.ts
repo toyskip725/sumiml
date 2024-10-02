@@ -19,4 +19,34 @@ describe("newline", () => {
       rest: "abc",
     });
   });
+
+  test("success2", () => {
+    // Arrange
+    const sample2 = "\r\n\r\n\r\nabc";
+
+    // Act
+    const output = newline(sample2);
+
+    // Assert
+    expect(output).toEqual<ParseOutput<NewLineNode>>({
+      status: "success",
+      data: {
+        type: "newline",
+      },
+      rest: "abc",
+    });
+  });
+
+  test("fail1", () => {
+    // Arrange
+    const sample3 = "\r\nabc";
+
+    // Act
+    const output = newline(sample3);
+
+    // Assert
+    expect(output).toEqual<ParseOutput<NewLineNode>>({
+      status: "fail",
+    });
+  });
 });

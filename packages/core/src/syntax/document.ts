@@ -1,5 +1,9 @@
-import scope from "./scope";
+import { Parser } from "../parser/parser";
+import scope, { ScopeNode } from "./scope";
+import { ParseTagSpecs } from "./specs";
 
-const document = scope("Document");
+function document(specs?: ParseTagSpecs): Parser<ScopeNode> {
+  return scope("Document", specs);
+}
 
 export default document;
