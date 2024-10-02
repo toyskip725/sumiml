@@ -6,6 +6,9 @@ import htmlMarkup from "./markup";
 import htmlTextContent from "./textContent";
 
 export const classifyNodes = (nodes: ScopeContentNode[]) :ScopeContentNode[][] => {
+  // 連続するtext, markupはひとまとめにする
+  // newlineは区切りと見做して以後の生成から除外する
+  // scopeは単一ノードで生成単位とする
   const result: ScopeContentNode[][]  = [[]];
   let index = 0;
   for (let child of nodes) {
@@ -17,6 +20,8 @@ export const classifyNodes = (nodes: ScopeContentNode[]) :ScopeContentNode[][] =
         result.push([]);
       }
       result[index].push(child);
+      index++;
+      result.push([]);
     } else {
       if (result[index].length !== 0) {
         index++;
