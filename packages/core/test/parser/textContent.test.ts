@@ -51,7 +51,7 @@ describe("text", () => {
       status: "success",
       data: {
         type: "text",
-        content: "abcxyz",
+        content: "abc\r\nxyz",
       },
       rest: "",
     });

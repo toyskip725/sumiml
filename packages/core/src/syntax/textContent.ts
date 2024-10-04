@@ -38,7 +38,7 @@ const textContent: Parser<TextContentNode> = (input: string) => {
     status: "success",
     data: {
       type: "text",
-      content: data.join("").replace(/\r\n/g, ""),
+      content: data.join(""),
     },
     rest: rest,
   };
