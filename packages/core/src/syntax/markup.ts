@@ -23,7 +23,8 @@ function markup(targetTag?: string, specs?: ParseTagSpecs): Parser<MarkupNode> {
       };
     }
 
-    if (specs !== undefined && specs.scope.includes(openTag.data.tagname)) {
+    if (specs !== undefined 
+      && (specs.scope.includes(openTag.data.tagname) || specs.display.includes(openTag.data.tagname))) {
       return {
         status: "fail",
       };

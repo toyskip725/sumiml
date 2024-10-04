@@ -1,20 +1,22 @@
 import { GeneratorOutput, HTMLGenerator, HTMLGeneratorFactory, HTMLOutput, HTMLReducerGenerator } from "../generator/generator";
+import { DisplayNode } from "../syntax/display";
 import { MarkupNode } from "../syntax/markup";
 import { ScopeContentNode, ScopeNode } from "../syntax/scope";
 import { TextContentNode } from "../syntax/textContent";
+import htmlDisplay from "./display";
 import htmlMarkup from "./markup";
 import htmlTextContent from "./textContent";
 
 export const classifyNodes = (nodes: ScopeContentNode[]) :ScopeContentNode[][] => {
   // 連続するtext, markupはひとまとめにする
   // newlineは区切りと見做して以後の生成から除外する
-  // scopeは単一ノードで生成単位とする
+  // display, scopeは単一ノードで生成単位とする
   const result: ScopeContentNode[][]  = [[]];
   let index = 0;
   for (let child of nodes) {
     if (child.type === "text" || child.type === "markup") {
       result[index].push(child);
-    } else if (child.type === "scope") {
+    } else if (child.type === "display" || child.type === "scope") {
       if (result[index].length !== 0) {
         index++;
         result.push([]);
@@ -39,6 +41,7 @@ export const classifyNodes = (nodes: ScopeContentNode[]) :ScopeContentNode[][] =
 
 function htmlScope(
   scopeGenerators: Record<string, HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeContentNode>>>, 
+  displayGenerators: Record<string, HTMLGenerator<DisplayNode>>,
   markupGenerators: Record<string, HTMLGenerator<MarkupNode>>
 ): HTMLGenerator<ScopeNode> {
   const htmlTextMarkup: HTMLGenerator<TextContentNode | MarkupNode> = (node: TextContentNode | MarkupNode) => {
@@ -47,6 +50,14 @@ function htmlScope(
     }
 
     return htmlMarkup(markupGenerators)(node);
+  };
+
+  const htmlDisplayScope: HTMLGenerator<DisplayNode | ScopeNode> = (node: DisplayNode | ScopeNode) => {
+    if (node.type === "display") {
+      return htmlDisplay(displayGenerators)(node);
+    }
+
+    return htmlScope(scopeGenerators, displayGenerators, markupGenerators)(node);
   };
 
   const generateScopeContent: HTMLReducerGenerator<ScopeContentNode> = (nodes: ScopeContentNode[]) => {
@@ -69,7 +80,7 @@ function htmlScope(
       } as GeneratorOutput<HTMLOutput>;
     }
 
-    const htmlOutput = nodes.map(node => htmlScope(scopeGenerators, markupGenerators)(node as ScopeNode));
+    const htmlOutput = nodes.map(node => htmlDisplayScope(node as ScopeNode));
     const success = htmlOutput.filter(output => output.status === "success");
     const fail = htmlOutput.filter(output => output.status === "fail");
     
