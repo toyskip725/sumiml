@@ -2,7 +2,7 @@ import { test, expect, describe } from 'vitest';
 import { GeneratorOutput, HTMLOutput } from '../../src/generator/generator';
 import { MarkupNode } from '../../src/syntax/markup';
 import htmlMarkup from '../../src/html/markup';
-import htmlBold from '../../src/html/bold';
+import htmlStrong from '../../src/html/strong';
 
 describe("markup: html generator", () => {
   test("success1", () => {
@@ -30,12 +30,12 @@ describe("markup: html generator", () => {
     // Arrange
     const node: MarkupNode = {
       type: "markup",
-      tagname: "Bold",
+      tagname: "Strong",
       attributes: {},
       content: "abc",
     };
     const generator = htmlMarkup({
-      "Bold": htmlBold, 
+      "Strong": htmlStrong, 
     });
 
     // Act
@@ -45,7 +45,7 @@ describe("markup: html generator", () => {
     expect(output).toEqual<GeneratorOutput<HTMLOutput>>({
       status: "success",
       meta: {},
-      html: "<b>abc</b>",
+      html: "<strong>abc</strong>",
     });
   });
 });

@@ -2,13 +2,14 @@ import many from "../parser/many";
 import or from "../parser/or";
 import { Parser } from "../parser/parser";
 import str from "../parser/str";
+import display, { DisplayNode } from "./display";
 import markup, { MarkupNode } from "./markup";
 import newline, { NewLineNode } from "./newline";
 import openingTag from "./openingTag";
 import { ParseTagSpecs } from "./specs";
 import textContent, { TextContentNode } from "./textContent";
 
-export type ScopeContentNode = NewLineNode | TextContentNode | MarkupNode | ScopeNode;
+export type ScopeContentNode = NewLineNode | TextContentNode | MarkupNode | DisplayNode | ScopeNode;
 export type ScopeNode = {
   type: "scope",
   tagname: string;
@@ -20,6 +21,7 @@ const scopeContent = (specs?: ParseTagSpecs) => many(or<ScopeContentNode>([
   newline,
   textContent, 
   markup(undefined, specs),
+  display(undefined, specs),
   scope(undefined, specs),
 ]));
 

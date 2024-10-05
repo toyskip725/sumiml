@@ -1,17 +1,17 @@
 import { Parser } from "../parser/parser";
 import str from "../parser/str";
 import openingTag from "./openingTag";
+import rawText from "./rawText";
 import { ParseTagSpecs } from "./specs";
-import textContent from "./textContent";
 
-export type MarkupNode = {
-  type: "markup",
+export type DisplayNode = {
+  type: "display";
   tagname: string;
   attributes: Record<string, string>;
   content: string;
 };
 
-function markup(targetTag?: string, specs?: ParseTagSpecs): Parser<MarkupNode> {
+function display(targetTag?: string, specs?: ParseTagSpecs): Parser<DisplayNode> {
   return (input: string) => {
     const openTag = openingTag(input);
     if(openTag.status === "fail") {
@@ -24,13 +24,13 @@ function markup(targetTag?: string, specs?: ParseTagSpecs): Parser<MarkupNode> {
     }
 
     if (specs !== undefined 
-      && (specs.scope.includes(openTag.data.tagname) || specs.display.includes(openTag.data.tagname))) {
+      && (specs.markup.includes(openTag.data.tagname) || specs.scope.includes(openTag.data.tagname))) {
       return {
         status: "fail",
       };
     }
 
-    const content = textContent(openTag.rest);
+    const content = rawText(openTag.rest);
     if(content.status === "fail") {
       return content;
     }
@@ -43,14 +43,14 @@ function markup(targetTag?: string, specs?: ParseTagSpecs): Parser<MarkupNode> {
     return {
       status: "success",
       data: {
-        type: "markup",
+        type: "display",
         tagname: openTag.data.tagname,
         attributes: openTag.data.attributes,
-        content: content.data.content
+        content: content.data.content,
       },
       rest: closingTag.rest,
     };
   };
 }
 
-export default markup;
+export default display;

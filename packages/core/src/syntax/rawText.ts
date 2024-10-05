@@ -1,13 +1,8 @@
 import { Parser } from "../parser/parser";
 import character from "../parser/character";
-import newline from "./newline";
+import { TextContentNode } from "./textContent";
 
-export type TextContentNode = {
-  type: "text",
-  content: string;
-};
-
-const textContent: Parser<TextContentNode> = (input: string) => {
+const rawText: Parser<TextContentNode> = (input: string) => {
   const tagStartPoint = character("<");
 
   const data: string[] = [];
@@ -17,10 +12,9 @@ const textContent: Parser<TextContentNode> = (input: string) => {
       break;
     }
 
-    const isNewline = newline(rest);
     const istagStartPoint = tagStartPoint(rest);
 
-    if (isNewline.status === "success" || istagStartPoint.status === "success") {
+    if (istagStartPoint.status === "success") {
       break;
     }
 
@@ -44,4 +38,4 @@ const textContent: Parser<TextContentNode> = (input: string) => {
   };
 };
 
-export default textContent;
+export default rawText;

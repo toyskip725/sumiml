@@ -8,7 +8,8 @@ describe("root", () => {
     const input = await readFile(`${process.cwd()}/packages/core/example/sample1.suml`, { encoding: 'utf8' });
     const parser = root({
       scope: ["Section"],
-      markup: ["Bold"],
+      display: [],
+      markup: ["Strong"],
     });
     
     // Act

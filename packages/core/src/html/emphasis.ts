@@ -1,12 +1,12 @@
 import { HTMLGenerator } from "../generator/generator";
 import { MarkupNode } from "../syntax/markup";
 
-const htmlBold: HTMLGenerator<MarkupNode> = (node: MarkupNode) => {
+const htmlEmphasis: HTMLGenerator<MarkupNode> = (node: MarkupNode) => {
   return {
     status: "success",
     meta: {},
-    html: `<b>${node.content}</b>`,
+    html: `<em>${node.content}</em>`,
   };
 };
 
-export default htmlBold;
+export default htmlEmphasis;
