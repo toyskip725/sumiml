@@ -6,7 +6,8 @@
   "private": true,
   "workspaces": [
     "packages/core",
-    "packages/extensions/sumiml-syntax-vscode"
+    "packages/extensions/sumiml-syntax-vscode",
+    "packages/extensions/astro"
   ],
   "devDependencies": {
     "@types/node": "^22.5.5",
