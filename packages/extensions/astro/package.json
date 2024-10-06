@@ -1,13 +1,10 @@
 {
   "name": "@sumiml/astro-integration",
   "version": "0.1.0",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
-  },
+  "type": "module",
+  "main": "src/index.ts",
   "devDependencies": {
-    "astro": "^4.15.11"
+    "astro": "^4.15.11",
+    "vite": "^5.4.8"
   }
 }
