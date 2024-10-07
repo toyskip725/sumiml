@@ -1,3 +1,4 @@
+import { formatErrorPosition } from "../util/format";
 import { Parser } from "./parser";
 
 function str(targetStr: string): Parser<string> {
@@ -8,7 +9,7 @@ function str(targetStr: string): Parser<string> {
     if (inputArray.length < target.length) {
       return {
         status: "fail",
-        message: `[str] match failed: ${targetStr}`,
+        message: `[str] match failed: ${formatErrorPosition(input)}`,
       };
     }
 
@@ -16,7 +17,7 @@ function str(targetStr: string): Parser<string> {
     if (!result) {
       return {
         status: "fail",
-        message: `[str] match failed: ${targetStr}`,
+        message: `[str] match failed: ${formatErrorPosition(input)}`,
       };
     }
 

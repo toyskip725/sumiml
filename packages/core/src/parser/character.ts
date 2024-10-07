@@ -1,3 +1,4 @@
+import { formatErrorPosition } from "../util/format";
 import { Parser } from "./parser";
 
 function character(targetChar: string): Parser<string> {
@@ -7,7 +8,7 @@ function character(targetChar: string): Parser<string> {
   
   return (input: string) => {
     if ([...input][0] !== targetChar) {
-      return { status: "fail", message: `[character] match failed: ${targetChar}` };
+      return { status: "fail", message: `[character] match failed: ${formatErrorPosition(input)}` };
     } 
 
     return {

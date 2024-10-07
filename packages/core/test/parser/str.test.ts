@@ -30,7 +30,7 @@ describe("str", () => {
     // Assert
     expect(output).toEqual<ParseOutput<string>>({
       status: "fail",
-      message: "[str] match failed: abc",
+      message: "[str] match failed: ab",
     });
   });
 
@@ -45,7 +45,7 @@ describe("str", () => {
     // Assert
     expect(output).toEqual<ParseOutput<string>>({
       status: "fail",
-      message: "[str] match failed: abc",
+      message: "[str] match failed: abxyzw",
     });
   });
 });

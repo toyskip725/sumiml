@@ -1,3 +1,4 @@
+import { formatErrorPosition } from "../util/format";
 import { Parser } from "./parser";
 
 function or<T extends unknown>(parsers: Array<Parser<T>>): Parser<T> {
@@ -12,6 +13,7 @@ function or<T extends unknown>(parsers: Array<Parser<T>>): Parser<T> {
 
     return {
       status: "fail",
+      message: `[or] none of the parsers matched: ${formatErrorPosition(input)}`,
     };
   };
 }
