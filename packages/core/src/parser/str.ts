@@ -8,6 +8,7 @@ function str(targetStr: string): Parser<string> {
     if (inputArray.length < target.length) {
       return {
         status: "fail",
+        message: `[str] match failed: ${targetStr}`,
       };
     }
 
@@ -15,6 +16,7 @@ function str(targetStr: string): Parser<string> {
     if (!result) {
       return {
         status: "fail",
+        message: `[str] match failed: ${targetStr}`,
       };
     }
 
