@@ -2,6 +2,7 @@
   "name": "@sumiml/core",
   "version": "0.1.0",
   "type": "module",
+  "main": "src/index.ts",
   "author": "toyskip725",
   "scripts": {
     "test": "vitest"
