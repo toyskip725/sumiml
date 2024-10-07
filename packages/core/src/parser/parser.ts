@@ -6,6 +6,7 @@ type ParseSuccessOutput<T> = {
 
 type ParseFailOutput = {
   status: "fail";
+  message: string;
 };
 
 export type ParseOutput<T> = ParseSuccessOutput<T> | ParseFailOutput;
