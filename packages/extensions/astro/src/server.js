@@ -5,7 +5,7 @@ async function check(Component, props, slots, metadata) {
 async function renderToStaticMarkup(Component, props, slots, metadata) {
   try {
     return {
-      html: "<p>Rendered!</p>",
+      html: Component.content,
     };
   } catch {
     console.error("error: renderToStaticMarkup");

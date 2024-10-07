@@ -1,5 +1,6 @@
-import { Plugin } from "vite";
-import { AstroIntegration } from "astro";
+import { type Plugin } from "vite";
+import { type AstroIntegration } from "astro";
+import { htmlCompiler } from "@sumiml/core";
 
 const getSumimlRenderer = () => {
   return {
@@ -15,11 +16,14 @@ const viteSumimlPlugin = (): Plugin => {
       if (id.endsWith(".suml")) {
         // id: filepath
         // code: whole content of .suml file 
+        const compiler = htmlCompiler();
+        const output = compiler(code);
+
         return {
           code: `
             const sumimlDocument = {
               type: "sumiml",
-              content: "<p>transformed!</p>"
+              content: "${output.status === "success" ? output.html : "<p>" + output.message + "</p>"}",
             };
             export default sumimlDocument;
           `,
