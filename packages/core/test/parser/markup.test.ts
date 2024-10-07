@@ -60,6 +60,7 @@ describe("markup", () => {
     // Assert
     expect(output).toEqual<ParseOutput<MarkupNode>>({
       status: "fail",
+      message: "[markup] the tagname does not match target: <Sample ti..",
     });
   });
 });

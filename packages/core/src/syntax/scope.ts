@@ -2,6 +2,7 @@ import many from "../parser/many";
 import or from "../parser/or";
 import { Parser } from "../parser/parser";
 import str from "../parser/str";
+import { formatErrorPosition } from "../util/format";
 import display, { DisplayNode } from "./display";
 import markup, { MarkupNode } from "./markup";
 import newline, { NewLineNode } from "./newline";
@@ -36,6 +37,7 @@ function scope(targetTag?: string, specs?: ParseTagSpecs): Parser<ScopeNode> {
     if (targetTag !== undefined && openTag.data.tagname !== targetTag) {
       return {
         status: "fail",
+        message: `[scope] the tagname does not match target: ${formatErrorPosition(input)}`,
       };
     }
 

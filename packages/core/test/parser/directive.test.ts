@@ -31,6 +31,7 @@ describe("directive", () => {
     // Assert
     expect(output).toEqual<ParseOutput<DirectiveNode>>({
       status: "fail",
+      message: "[str] match failed: sumiml />",
     });
   });
 });

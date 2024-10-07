@@ -51,6 +51,7 @@ describe("attribute", () => {
     // Assert
     expect(output).toEqual<ParseOutput<Attribute>>({
       status: "fail",
+      message: "[regexp] match failed: ",
     });
   });
 });

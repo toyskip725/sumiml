@@ -47,6 +47,7 @@ describe("newline", () => {
     // Assert
     expect(output).toEqual<ParseOutput<NewLineNode>>({
       status: "fail",
+      message: "[regexp] match failed: \r\nabc",
     });
   });
 });

@@ -1,6 +1,7 @@
 import { Parser } from "../parser/parser";
 import regexp from "../parser/regexp";
 import str from "../parser/str";
+import { formatErrorPosition } from "../util/format";
 import openingTag from "./openingTag";
 import YAML from "yaml";
 
@@ -17,6 +18,7 @@ const frontmatter: Parser<FrontmatterNode> = (input: string) => {
   if (openTag.data.tagname !== "Frontmatter") {
     return {
       status: "fail",
+      message: `[frontmatter] tagname should be "frontmatter": ${formatErrorPosition(input)}`,
     };
   }
 
