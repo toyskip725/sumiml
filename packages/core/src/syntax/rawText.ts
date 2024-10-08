@@ -1,6 +1,7 @@
 import { Parser } from "../parser/parser";
 import character from "../parser/character";
 import { TextContentNode } from "./textContent";
+import { formatErrorPosition } from "../util/format";
 
 const rawText: Parser<TextContentNode> = (input: string) => {
   const tagStartPoint = character("<");
@@ -25,6 +26,7 @@ const rawText: Parser<TextContentNode> = (input: string) => {
   if(data.length === 0) {
     return {
       status: "fail",
+      message: `[rawtext] there is no content to match: ${formatErrorPosition(rest)}`,
     };
   }
 

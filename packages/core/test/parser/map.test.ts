@@ -45,7 +45,8 @@ describe("map", () => {
 
     // Assert
     expect(output).toEqual<ParseOutput<{ type: string; value: string; }>>({
-      status: "fail"
+      status: "fail",
+      message: "[character] match failed: abc",
     });
   });
 });

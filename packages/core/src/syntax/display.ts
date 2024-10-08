@@ -1,5 +1,6 @@
 import { Parser } from "../parser/parser";
 import str from "../parser/str";
+import { formatErrorPosition } from "../util/format";
 import openingTag from "./openingTag";
 import rawText from "./rawText";
 import { ParseTagSpecs } from "./specs";
@@ -20,6 +21,7 @@ function display(targetTag?: string, specs?: ParseTagSpecs): Parser<DisplayNode>
     if (targetTag !== undefined && openTag.data.tagname !== targetTag) {
       return {
         status: "fail",
+        message: `[display] the tagname does not match target: ${formatErrorPosition(input)}`,
       };
     }
 
@@ -27,6 +29,7 @@ function display(targetTag?: string, specs?: ParseTagSpecs): Parser<DisplayNode>
       && (specs.markup.includes(openTag.data.tagname) || specs.scope.includes(openTag.data.tagname))) {
       return {
         status: "fail",
+        message: `[display] the tag should be parsed as markup or scope, but is parsed as display: ${formatErrorPosition(input)}`,
       };
     }
 

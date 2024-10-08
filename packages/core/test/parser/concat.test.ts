@@ -35,6 +35,7 @@ describe("concat", () => {
     // Assert
     expect(output).toEqual<ParseOutput<string[]>>({
       status: "fail",
+      message: "[character] match failed: bc",
     });
   });
 });

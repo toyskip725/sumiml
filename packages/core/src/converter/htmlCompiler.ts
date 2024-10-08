@@ -51,7 +51,7 @@ function htmlCompiler (configs?: ConverterConfig[]): HTMLConverter {
     if (rootNode.status === "fail") {
       return {
         status: "fail",
-        message: "parse failed",
+        message: rootNode.message,
       };
     }
 

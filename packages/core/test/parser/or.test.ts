@@ -53,6 +53,7 @@ describe("or", () => {
     // Assert
     expect(output).toEqual<ParseOutput<string>>({
       status: "fail",
+      message: "[or] none of the parsers matched: abc"
     });
   });
 });

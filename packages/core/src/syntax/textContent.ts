@@ -1,6 +1,7 @@
 import { Parser } from "../parser/parser";
 import character from "../parser/character";
 import newline from "./newline";
+import { formatErrorPosition } from "../util/format";
 
 export type TextContentNode = {
   type: "text",
@@ -31,6 +32,7 @@ const textContent: Parser<TextContentNode> = (input: string) => {
   if(data.length === 0) {
     return {
       status: "fail",
+      message: `[textcontent] there is no content to match: ${formatErrorPosition(rest)}`,
     };
   }
 
