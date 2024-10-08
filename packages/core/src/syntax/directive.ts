@@ -13,7 +13,7 @@ export type DirectiveNode = {
 const directiveInternal = concat([
   character("<"),
   str("SumiML version="),
-  regexp(/\"\d+\.\d+\"/y),
+  regexp(/^"\d+\.\d+"/g),
   whitespace(),
   character("/"),
   character(">")

@@ -23,7 +23,7 @@ const viteSumimlPlugin = (): Plugin => {
           code: `
             const sumimlDocument = {
               type: "sumiml",
-              content: "${output.status === "success" ? output.html : "<p>" + output.message + "</p>"}",
+              content: \`${output.status === "success" ? output.html : "<p>" + output.message + "</p>"}\`,
             };
             export default sumimlDocument;
           `,
