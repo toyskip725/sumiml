@@ -11,6 +11,7 @@ import { DisplayNode } from "../syntax/display";
 import { MarkupNode } from "../syntax/markup";
 import { ScopeContentNode, ScopeNode } from "../syntax/scope";
 
+export type ConverterType = "html";
 export type ConverterConfig = {
   scope: Record<string, HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeContentNode>>>;
   display: Record<string, HTMLGenerator<DisplayNode>>;

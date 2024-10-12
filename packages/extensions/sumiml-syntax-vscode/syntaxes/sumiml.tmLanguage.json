@@ -3,40 +3,43 @@
 	"name": "SumiML",
 	"patterns": [
     {
+      "include": "#math"
+    },
+    {
       "include": "#directive"
     },
+    {
+			"include": "#info"
+		},
     {
       "include": "#tag"
     },
     {
       "include": "#attribute"
-    },
-		{
-			"include": "#info"
-		}
+    }
 	],
 	"repository": {
+    "math": {
+      "patterns": [
+        {
+          "include": "#inline"
+        },
+        {
+          "include": "#display"
+        }
+      ]
+    },
+    "inline": {
+      "name": "support.class.math.inline.sumiml",
+      "match": "\\$"
+    },
+    "display": {
+      "name": "support.class.math.display.sumiml",
+      "match": "(?<=(\\<|\\<\\/))Math(?=(\\s|\\>))"
+    },
     "directive": {
       "name": "comment.line.directive.sumiml",
       "match": "<SumiML version=\"\\d+\\.\\d+\" />"
-    },
-    "tag": {
-      "name": "entity.name.tag.sumiml",
-      "match": "(?<=(\\<|\\<\\/))[A-Z][a-z]+(?=(\\s|\\>))"
-    },
-    "attribute": {
-      "match": "(\\s[a-z]+)(\\=)(\"[^\"]+\")",
-      "captures": {
-        "1": {
-          "name": "entity.other.attribute-name.sumiml"
-        },
-        "2": {
-          "name": "punctuation.separator.sumiml"
-        },
-        "3": {
-          "name": "string.quoted.double"
-        }
-      }
     },
     "info": {
       "begin": "<Frontmatter>",
@@ -54,6 +57,24 @@
         },
         "4": {
           "name": "string.yaml.sumiml"
+        }
+      }
+    },
+    "tag": {
+      "name": "entity.name.tag.sumiml",
+      "match": "(?<=(\\<|\\<\\/))[A-Z][a-z]+(?=(\\s|\\>))"
+    },
+    "attribute": {
+      "match": "(\\s[a-z]+)(\\=)(\"[^\"]+\")",
+      "captures": {
+        "1": {
+          "name": "entity.other.attribute-name.sumiml"
+        },
+        "2": {
+          "name": "punctuation.separator.sumiml"
+        },
+        "3": {
+          "name": "string.quoted.double"
         }
       }
     }

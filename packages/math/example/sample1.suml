@@ -1,0 +1,38 @@
+<SumiML version="1.0" />
+<Frontmatter>
+title: Math Sample1
+</Frontmatter>
+
+<Document>
+
+<Definition name="準同型写像">
+$G$, $H$ を群とする。
+写像 $\phi : G \to H$ が <Strong>準同型写像</Strong> (homomorphism) であるのは、
+任意の $x, y \in G$ に対して、$\phi(x \cdot y) = \phi(x) \cdot \phi(y)$ が成り立つときである。
+</Definition>
+
+<Proposition>
+群の準同型写像は単位元、逆元を保つ : すなわち、$G$, $H$を群、$a \in G$、$\phi : G \to H$ を準同型写像とすると、
+
+<Math>
+\phi (1_{G}) = 1_{H}, \quad \phi (a)^{-1} = \phi (a^{-1})
+</Math>
+
+が成り立つ。
+</Proposition>
+
+<Proof>
+(1) $\phi$ は準同型写像なので、$\phi(1_{G}) \cdot \phi(1_{G}) = \phi (1_{G} \cdot 1_{G}) = \phi (1_{G})$ である。
+仮定より $\phi (1_{G})^{-1} \in H$ なので、
+
+<Math>
+\phi(1_{G}) = \phi(1_{G}) \cdot \phi(1_{G}) \cdot \phi (1_{G})^{-1} = \phi (1_{G}) \cdot \phi (1_{G})^{-1} = 1_{H}
+</Math>
+
+すなわち $\phi(1_{G}) = 1_{H}$ である。
+
+(2) 同様に $\phi$ は準同型写像なので、$\phi (a) \cdot \phi (a^{-1}) = \phi (a \cdot a^{-1}) = \phi (1_{G}) = 1_{H} $ 、および
+$\phi (a^{-1}) \cdot \phi (a) = \phi (a^{-1} \cdot a) = \phi (1_{G}) = 1_{H} $ が成り立つ。ゆえに $\phi (a)$ の逆元は $ \phi(a^{-1}) $ である。 $ \Box $
+</Proof>
+
+</Document>
