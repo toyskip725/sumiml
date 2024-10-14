@@ -8,6 +8,7 @@ import htmlSubsubsection from '../../src/html/subsubsection';
 import htmlLink from '../../src/html/link';
 import htmlMath from '../../src/html/math';
 import htmlStrong from '../../src/html/strong';
+import htmlList from '../../src/html/list';
 
 describe("root: html generator", () => {
   test("success1", async () => {
@@ -27,6 +28,7 @@ describe("root: html generator", () => {
       scope: {
         "Section": htmlSection,
       },
+      enumeration: {},
       display: {},
       markup: {
         "Strong": htmlStrong,
@@ -64,6 +66,7 @@ describe("root: html generator", () => {
         "Subsection": htmlSubsection,
         "Subsubsection": htmlSubsubsection,
       },
+      enumeration: {},
       display: {
         "Math": htmlMath,
       },
@@ -101,6 +104,9 @@ describe("root: html generator", () => {
     const generator = htmlRoot({
       scope: {
         "Section": htmlSection,
+      },
+      enumeration: {
+        "List": htmlList,
       },
       display: {},
       markup: {}
