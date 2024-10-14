@@ -1,0 +1,13 @@
+{
+  "name": "@sumiml/util",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "author": "toyskip725",
+  "dependencies": {
+    "@sumiml/core": "^0.1.0"
+  },
+  "scripts": {
+    "test": "vitest"
+  }
+}
