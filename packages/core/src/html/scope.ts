@@ -1,22 +1,27 @@
 import { GeneratorOutput, HTMLGenerator, HTMLGeneratorFactory, HTMLOutput, HTMLReducerGenerator } from "../generator/generator";
 import { DisplayNode } from "../syntax/display";
 import { MarkupNode } from "../syntax/markup";
+import { NewLineNode } from "../syntax/newline";
 import { ScopeContentNode, ScopeNode } from "../syntax/scope";
 import { TextContentNode } from "../syntax/textContent";
 import htmlDisplay from "./display";
+import htmlList from "./list";
 import htmlMarkup from "./markup";
 import htmlTextContent from "./textContent";
+
+type ParagraphNode = TextContentNode | MarkupNode;
+type NonParagraphNode = Exclude<ScopeContentNode, NewLineNode | ParagraphNode>;
 
 export const classifyNodes = (nodes: ScopeContentNode[]) :ScopeContentNode[][] => {
   // 連続するtext, markupはひとまとめにする
   // newlineは区切りと見做して以後の生成から除外する
-  // display, scopeは単一ノードで生成単位とする
+  // display, list, scopeは単一ノードで生成単位とする
   const result: ScopeContentNode[][]  = [[]];
   let index = 0;
   for (let child of nodes) {
     if (child.type === "text" || child.type === "markup") {
       result[index].push(child);
-    } else if (child.type === "display" || child.type === "scope") {
+    } else if (child.type === "display" || child.type === "list" || child.type === "scope") {
       if (result[index].length !== 0) {
         index++;
         result.push([]);
@@ -44,17 +49,17 @@ function htmlScope(
   displayGenerators: Record<string, HTMLGenerator<DisplayNode>>,
   markupGenerators: Record<string, HTMLGenerator<MarkupNode>>
 ): HTMLGenerator<ScopeNode> {
-  const htmlTextMarkup: HTMLGenerator<TextContentNode | MarkupNode> = (node: TextContentNode | MarkupNode) => {
-    if (node.type === "text") {
-      return htmlTextContent(node);
-    }
-
-    return htmlMarkup(markupGenerators)(node);
+  const htmlParagraph: HTMLGenerator<ParagraphNode> = (node: ParagraphNode) => {
+    return node.type === "text" ? htmlTextContent(node) : htmlMarkup(markupGenerators)(node);
   };
 
-  const htmlDisplayScope: HTMLGenerator<DisplayNode | ScopeNode> = (node: DisplayNode | ScopeNode) => {
+  const htmlNonParagraph: HTMLGenerator<NonParagraphNode> = (node: NonParagraphNode) => {
     if (node.type === "display") {
       return htmlDisplay(displayGenerators)(node);
+    }
+
+    if (node.type === "list") {
+      return htmlList(markupGenerators)(node);
     }
 
     return htmlScope(scopeGenerators, displayGenerators, markupGenerators)(node);
@@ -62,7 +67,7 @@ function htmlScope(
 
   const generateScopeContent: HTMLReducerGenerator<ScopeContentNode> = (nodes: ScopeContentNode[]) => {
     if (nodes[0].type === "text" || nodes[0].type === "markup") {
-      const htmlOutput = nodes.map(node => htmlTextMarkup(node as TextContentNode | MarkupNode));
+      const htmlOutput = nodes.map(node => htmlParagraph(node as ParagraphNode));
       const success = htmlOutput.filter(output => output.status === "success");
       const fail = htmlOutput.filter(output => output.status === "fail");
       
@@ -80,7 +85,7 @@ function htmlScope(
       } as GeneratorOutput<HTMLOutput>;
     }
 
-    const htmlOutput = nodes.map(node => htmlDisplayScope(node as ScopeNode));
+    const htmlOutput = nodes.map(node => htmlNonParagraph(node as NonParagraphNode));
     const success = htmlOutput.filter(output => output.status === "success");
     const fail = htmlOutput.filter(output => output.status === "fail");
     
