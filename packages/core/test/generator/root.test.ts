@@ -84,4 +84,37 @@ describe("root: html generator", () => {
 
     expect(output.status).toBe("success");
   });
+
+  test("success3", async () => {
+    // Arrange
+    const input = await readFile(`${process.cwd()}/packages/core/example/sample3.suml`, { encoding: 'utf8' });
+    const parser = root({
+      scope: ["Section"],
+      display: [],
+      markup: [],
+    });
+    const node = parser(input.replace(/"/g, "\""));
+    if (node.status === "fail") {
+      return;
+    }
+
+    const generator = htmlRoot({
+      scope: {
+        "Section": htmlSection,
+      },
+      display: {},
+      markup: {}
+    });
+    
+    // Act
+    const output = generator(node.data);
+
+    // Assert
+    if(output.status === "success") {
+      await writeFile(`${process.cwd()}/packages/core/example/sample3.html`, output.html, { encoding: 'utf8' });
+      expect(output.status).toBe("success");
+    }
+
+    expect(output.status).toBe("success");
+  });
 });
