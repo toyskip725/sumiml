@@ -1,6 +1,6 @@
 import { Parser } from "./parser";
 
-function many<T extends unknown>(target: Parser<T>): Parser<Array<T>> {
+function many<T extends unknown>(target: Parser<T>, trimStart: boolean = false): Parser<Array<T>> {
   return (input: string) => {
     const result: T[] = [];
     let rest: string = input;
@@ -12,7 +12,7 @@ function many<T extends unknown>(target: Parser<T>): Parser<Array<T>> {
       }
 
       result.push(output.data);
-      rest = output.rest;
+      rest = trimStart ? output.rest.trimStart() : output.rest;
     }
 
     return {
