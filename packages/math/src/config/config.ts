@@ -17,6 +17,7 @@ export const mathConfig: ConverterConfig = {
     "Example": htmlExample,
     "Proof": htmlProof,
   },
+  enumeration: {},
   display: {},
   markup: {},
 } as const;
