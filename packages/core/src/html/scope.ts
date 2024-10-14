@@ -1,11 +1,12 @@
 import { GeneratorOutput, HTMLGenerator, HTMLGeneratorFactory, HTMLOutput, HTMLReducerGenerator } from "../generator/generator";
 import { DisplayNode } from "../syntax/display";
+import { EnumerationNode } from "../syntax/enumeration";
 import { MarkupNode } from "../syntax/markup";
 import { NewLineNode } from "../syntax/newline";
 import { ScopeContentNode, ScopeNode } from "../syntax/scope";
 import { TextContentNode } from "../syntax/textContent";
 import htmlDisplay from "./display";
-import htmlList from "./list";
+import htmlEnumeration from "./enumeration";
 import htmlMarkup from "./markup";
 import htmlTextContent from "./textContent";
 
@@ -21,7 +22,7 @@ export const classifyNodes = (nodes: ScopeContentNode[]) :ScopeContentNode[][] =
   for (let child of nodes) {
     if (child.type === "text" || child.type === "markup") {
       result[index].push(child);
-    } else if (child.type === "display" || child.type === "list" || child.type === "scope") {
+    } else if (child.type === "display" || child.type === "enumeration" || child.type === "scope") {
       if (result[index].length !== 0) {
         index++;
         result.push([]);
@@ -45,7 +46,8 @@ export const classifyNodes = (nodes: ScopeContentNode[]) :ScopeContentNode[][] =
 };
 
 function htmlScope(
-  scopeGenerators: Record<string, HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeContentNode>>>, 
+  scopeGenerators: Record<string, HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeContentNode>>>,
+  enumerationGenerators: Record<string, HTMLGeneratorFactory<EnumerationNode, HTMLGenerator<MarkupNode>>>,
   displayGenerators: Record<string, HTMLGenerator<DisplayNode>>,
   markupGenerators: Record<string, HTMLGenerator<MarkupNode>>
 ): HTMLGenerator<ScopeNode> {
@@ -58,11 +60,11 @@ function htmlScope(
       return htmlDisplay(displayGenerators)(node);
     }
 
-    if (node.type === "list") {
-      return htmlList(markupGenerators)(node);
+    if (node.type === "enumeration") {
+      return htmlEnumeration(enumerationGenerators, htmlMarkup(markupGenerators))(node);
     }
 
-    return htmlScope(scopeGenerators, displayGenerators, markupGenerators)(node);
+    return htmlScope(scopeGenerators, enumerationGenerators, displayGenerators, markupGenerators)(node);
   };
 
   const generateScopeContent: HTMLReducerGenerator<ScopeContentNode> = (nodes: ScopeContentNode[]) => {
