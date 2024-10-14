@@ -1,23 +1,21 @@
 import { HTMLGenerator } from "../generator/generator";
-import { ListItemNode } from "../syntax/listItem";
+import { EnumerationItemNode } from "../syntax/enumerationitem";
 import { MarkupNode } from "../syntax/markup";
 import htmlList from "./list";
-import htmlMarkup from "./markup";
 import htmlTextContent from "./textContent";
 
 
-function htmlListItem(generators: Record<string, HTMLGenerator<MarkupNode>>): HTMLGenerator<ListItemNode> {
-  const markup = htmlMarkup(generators);
-  const list = htmlList(generators);
+function htmlListItem(markup: HTMLGenerator<MarkupNode>): HTMLGenerator<EnumerationItemNode> {
+  const list = htmlList(markup);
 
-  return (node: ListItemNode) => {
+  return (node: EnumerationItemNode) => {
     const htmlOutput = node.content.map(element => {
       switch (element.type) {
         case "text": 
           return htmlTextContent(element);
         case "markup":
           return markup(element);
-        case "list":
+        case "enumeration":
           return list(element);
       }
     });

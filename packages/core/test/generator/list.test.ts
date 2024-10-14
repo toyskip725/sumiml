@@ -1,36 +1,43 @@
 import { test, expect, describe } from 'vitest';
 import { GeneratorOutput, HTMLOutput } from '../../src/generator/generator';
-import { ListNode } from '../../src/syntax/list';
 import htmlList from '../../src/html/list';
+import htmlMarkup from '../../src/html/markup';
+import { EnumerationNode } from '../../src/syntax/enumeration';
 
 describe("list: html generator", () => {
   test("success1", () => {
     // Arrange
-    const node: ListNode = {
-      type: "list",
-      listtype: "ordered",
+    const node: EnumerationNode = {
+      type: "enumeration",
+      tagname: "List",
+      attributes: {
+        type: "ordered",
+      },
       children: [
         { 
-          type: "listitem",
+          type: "item",
           content: [{ type: "text", content: "this is item1." }],
         },
         { 
-          type: "listitem",
+          type: "item",
           content: [
             { 
               type: "text", 
               content: "this is item2." 
             },
             {
-              type: "list",
-              listtype: "itemized",
+              type: "enumeration",
+              tagname: "List",
+              attributes: {
+                type: "itemized",
+              },
               children: [
                 {
-                  type: "listitem",
+                  type: "item",
                   content: [{ type: "text", content: "this is item2.1." }],
                 },
                 {
-                  type: "listitem",
+                  type: "item",
                   content: [{ type: "text", content: "this is item2.2." }],
                 },
               ]
@@ -41,7 +48,7 @@ describe("list: html generator", () => {
     };
 
     // Act
-    const output = htmlList({})(node);
+    const output = htmlList(htmlMarkup({}))(node);
 
     // Assert
     expect(output).toEqual<GeneratorOutput<HTMLOutput>>({
