@@ -126,7 +126,7 @@ function htmlScope(
     return {
       status: "success",
       meta: {},
-      html: `<div class="${node.tagname}">${success.map(output => output.html).join("")}</div>`,
+      html: `<div class="${node.tagname.toLowerCase()}">${success.map(output => output.html).join("")}</div>`,
     };
   };
 }

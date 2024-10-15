@@ -22,7 +22,7 @@ describe("markup: html generator", () => {
     expect(output).toEqual<GeneratorOutput<HTMLOutput>>({
       status: "success",
       meta: {},
-      html: "<div class=\"Sample\">abc</div>",
+      html: "<div class=\"sample\">abc</div>",
     });
   });
 

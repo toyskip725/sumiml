@@ -12,7 +12,7 @@ function htmlDisplay(generators: Record<string, HTMLGenerator<DisplayNode>>): HT
     return {
       status: "success",
       meta: {},
-      html: `<div class="${node.tagname}">${node.content}</div>`,
+      html: `<div class="${node.tagname.toLowerCase()}">${node.content}</div>`,
     };
   };
 }
