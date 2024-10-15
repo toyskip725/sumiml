@@ -3,7 +3,7 @@ import str from "../parser/str";
 import { formatErrorPosition } from "../util/format";
 import openingTag from "./openingTag";
 import rawText from "./rawText";
-import { ParseTagSpecs } from "./specs";
+import { ParserConfig } from "./parserConfig";
 
 export type DisplayNode = {
   type: "display";
@@ -12,7 +12,7 @@ export type DisplayNode = {
   content: string;
 };
 
-function display(targetTag?: string, specs?: ParseTagSpecs): Parser<DisplayNode> {
+function display(targetTag?: string, specs?: ParserConfig): Parser<DisplayNode> {
   return (input: string) => {
     const openTag = openingTag(input);
     if(openTag.status === "fail") {

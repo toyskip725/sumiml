@@ -1,30 +1,30 @@
-import { Parser } from "../parser/parser";
 import many from "../parser/many";
+import map from "../parser/map";
 import or from "../parser/or";
+import { Parser } from "../parser/parser";
 import str from "../parser/str";
+import enumeration, { EnumerationNode } from "./enumeration";
 import markup, { MarkupNode } from "./markup";
 import { ParserConfig } from "./parserConfig";
 import textContent, { TextContentNode } from "./textContent";
-import map from "../parser/map";
-import list, { ListNode } from "./list";
 
-export type ListItemContentNode = TextContentNode | MarkupNode | ListNode;
-export type ListItemNode = {
-  type: "listitem",
-  content: Array<ListItemContentNode>;
+export type EnumerationItemContentNode = TextContentNode | MarkupNode | EnumerationNode;
+export type EnumerationItemNode = {
+  type: "item",
+  content: Array<EnumerationItemContentNode>;
 };
 
-const listItem = (specs?: ParserConfig): Parser<ListItemNode> => {
+const enumerationItem = (specs?: ParserConfig): Parser<EnumerationItemNode> => {
   return (input: string) => {
     // start
-    const listItemStartPoint = str("</> ");
-    const startPoint = listItemStartPoint(input.trimStart());
+    const enumerationItemStartPoint = str("</> ");
+    const startPoint = enumerationItemStartPoint(input.trimStart());
     if (startPoint.status === "fail") {
       return startPoint;
     }
 
     // content
-    const listItemContent = many(or<ListItemContentNode>([
+    const enumerationItemContent = many(or<EnumerationItemContentNode>([
       map(textContent, (output) => {
         return {
           type: "text",
@@ -32,9 +32,9 @@ const listItem = (specs?: ParserConfig): Parser<ListItemNode> => {
         } as TextContentNode;
       }),
       markup(undefined, specs),
-      list(specs),
+      enumeration(undefined, specs),
     ]), true);
-    const content = listItemContent(startPoint.rest);
+    const content = enumerationItemContent(startPoint.rest);
     if (content.status === "fail") {
       return content;
     }
@@ -42,7 +42,7 @@ const listItem = (specs?: ParserConfig): Parser<ListItemNode> => {
     return {
       status: "success",
       data: {
-        type: "listitem",
+        type: "item",
         content: content.data,
       },
       rest: content.rest,
@@ -50,4 +50,4 @@ const listItem = (specs?: ParserConfig): Parser<ListItemNode> => {
   };
 };
 
-export default listItem;
+export default enumerationItem;

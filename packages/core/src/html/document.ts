@@ -2,17 +2,10 @@ import { HTMLGeneratorFactory, HTMLReducerGenerator } from "../generator/generat
 import { ScopeContentNode, ScopeNode } from "../syntax/scope";
 import { classifyNodes } from "./scope";
 
-const htmlSection: HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeContentNode>> = (
+const htmlDocument: HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeContentNode>> = (
   generator: HTMLReducerGenerator<ScopeContentNode>
 ) => {
   return (node: ScopeNode) => {
-    if (node.attributes.title === undefined) {
-      return {
-        status: "fail",
-        message: "cannot find \"title\" attribute in <Section>",
-      };
-    }
-
     const htmlOutput = classifyNodes(node.children).map(nodes => generator(nodes));
     const success = htmlOutput.filter(output => output.status === "success");
     const fail = htmlOutput.filter(output => output.status === "fail");
@@ -27,9 +20,9 @@ const htmlSection: HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeCon
     return {
       status: "success",
       meta: {},
-      html: `<section><h1>${node.attributes.title}</h1><div>${success.map(output => output.html).join("")}</div></section>`,
+      html: `<article class="document"><div>${success.map(output => output.html).join("")}</div></article>`,
     };
   };
 };
 
-export default htmlSection;
+export default htmlDocument;

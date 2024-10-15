@@ -1,12 +1,15 @@
-import { HTMLGenerator } from "../generator/generator";
+import { HTMLGenerator, HTMLGeneratorFactory } from "../generator/generator";
+import { EnumerationNode } from "../syntax/enumeration";
 import { EnumerationItemNode } from "../syntax/enumerationitem";
 import { MarkupNode } from "../syntax/markup";
-import htmlList from "./list";
+import htmlEnumeration from "./enumeration";
 import htmlTextContent from "./textContent";
 
-
-function htmlListItem(markup: HTMLGenerator<MarkupNode>): HTMLGenerator<EnumerationItemNode> {
-  const list = htmlList(markup);
+function htmlEnumerationItem(
+  enumerationGenerators: Record<string, HTMLGeneratorFactory<EnumerationNode, HTMLGenerator<MarkupNode>>>,
+  markup: HTMLGenerator<MarkupNode>
+): HTMLGenerator<EnumerationItemNode> {
+  const enumeration = htmlEnumeration(enumerationGenerators, markup);
 
   return (node: EnumerationItemNode) => {
     const htmlOutput = node.content.map(element => {
@@ -16,7 +19,7 @@ function htmlListItem(markup: HTMLGenerator<MarkupNode>): HTMLGenerator<Enumerat
         case "markup":
           return markup(element);
         case "enumeration":
-          return list(element);
+          return enumeration(element);
       }
     });
     const success = htmlOutput.filter(output => output.status === "success");
@@ -37,4 +40,4 @@ function htmlListItem(markup: HTMLGenerator<MarkupNode>): HTMLGenerator<Enumerat
   };
 };
 
-export default htmlListItem;
+export default htmlEnumerationItem;

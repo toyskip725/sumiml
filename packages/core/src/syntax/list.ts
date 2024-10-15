@@ -4,7 +4,7 @@ import str from "../parser/str";
 import { formatErrorPosition } from "../util/format";
 import listItem, { type ListItemNode } from "./listItem";
 import openingTag from "./openingTag";
-import { type ParseTagSpecs } from "./specs";
+import { type ParserConfig } from "./parserConfig";
 
 export type ListNode = {
   type: "list";
@@ -12,9 +12,9 @@ export type ListNode = {
   children: Array<ListItemNode>;
 };
 
-const listContent = (specs?: ParseTagSpecs) => many(listItem(specs));
+const listContent = (specs?: ParserConfig) => many(listItem(specs));
 
-function list(specs?: ParseTagSpecs): Parser<ListNode> {
+function list(specs?: ParserConfig): Parser<ListNode> {
   return (input: string) => {
     const openTag = openingTag(input);
     if(openTag.status === "fail") {

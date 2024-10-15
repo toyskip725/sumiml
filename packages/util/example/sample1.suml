@@ -1,0 +1,22 @@
+<SumiML version="1.0" />
+<Frontmatter>
+title: SumiML Sample1
+</Frontmatter>
+
+<Document>
+
+A bibliography sample.
+
+<Section title="Section1">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla <Strong>pariatur</Strong>. 
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</Section>
+
+<Bibliography>
+  </> Some Author. 2020. <Emphasis>The Book Title1</Emphasis>. Publisher Press.
+  </> Some Author. 2024. "The Article Title1". in <Emphasis>Some Journal vol.80</Emphasis>: pp.55-80.
+</Bibliography>
+
+</Document>

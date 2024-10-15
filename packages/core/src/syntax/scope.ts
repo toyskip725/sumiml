@@ -4,14 +4,14 @@ import { Parser } from "../parser/parser";
 import str from "../parser/str";
 import { formatErrorPosition } from "../util/format";
 import display, { DisplayNode } from "./display";
-import list, { ListNode } from "./list";
+import enumeration, { EnumerationNode } from "./enumeration";
 import markup, { MarkupNode } from "./markup";
 import newline, { NewLineNode } from "./newline";
 import openingTag from "./openingTag";
-import { ParseTagSpecs } from "./specs";
+import { ParserConfig } from "./parserConfig";
 import textContent, { TextContentNode } from "./textContent";
 
-export type ScopeContentNode = NewLineNode | TextContentNode | MarkupNode | DisplayNode | ListNode | ScopeNode;
+export type ScopeContentNode = NewLineNode | TextContentNode | MarkupNode | DisplayNode | EnumerationNode | ScopeNode;
 export type ScopeNode = {
   type: "scope",
   tagname: string;
@@ -19,16 +19,16 @@ export type ScopeNode = {
   children: Array<ScopeContentNode>;
 };
 
-const scopeContent = (specs?: ParseTagSpecs) => many(or<ScopeContentNode>([
+const scopeContent = (specs?: ParserConfig) => many(or<ScopeContentNode>([
   newline,
   textContent, 
   markup(undefined, specs),
   display(undefined, specs),
-  list(specs),
+  enumeration(undefined, specs),
   scope(undefined, specs),
 ]));
 
-function scope(targetTag?: string, specs?: ParseTagSpecs): Parser<ScopeNode> {
+function scope(targetTag?: string, specs?: ParserConfig): Parser<ScopeNode> {
 
   return (input: string) => {
     const openTag = openingTag(input);
