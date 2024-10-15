@@ -8,7 +8,7 @@ import enumeration, { EnumerationNode } from "./enumeration";
 import markup, { MarkupNode } from "./markup";
 import newline, { NewLineNode } from "./newline";
 import openingTag from "./openingTag";
-import { ParseTagSpecs } from "./specs";
+import { ParserConfig } from "./parserConfig";
 import textContent, { TextContentNode } from "./textContent";
 
 export type ScopeContentNode = NewLineNode | TextContentNode | MarkupNode | DisplayNode | EnumerationNode | ScopeNode;
@@ -19,7 +19,7 @@ export type ScopeNode = {
   children: Array<ScopeContentNode>;
 };
 
-const scopeContent = (specs?: ParseTagSpecs) => many(or<ScopeContentNode>([
+const scopeContent = (specs?: ParserConfig) => many(or<ScopeContentNode>([
   newline,
   textContent, 
   markup(undefined, specs),
@@ -28,7 +28,7 @@ const scopeContent = (specs?: ParseTagSpecs) => many(or<ScopeContentNode>([
   scope(undefined, specs),
 ]));
 
-function scope(targetTag?: string, specs?: ParseTagSpecs): Parser<ScopeNode> {
+function scope(targetTag?: string, specs?: ParserConfig): Parser<ScopeNode> {
 
   return (input: string) => {
     const openTag = openingTag(input);

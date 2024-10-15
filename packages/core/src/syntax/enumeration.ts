@@ -1,4 +1,4 @@
-import { ParseTagSpecs } from "./specs";
+import { ParserConfig } from "./parserConfig";
 import openingTag from "./openingTag";
 import many from "../parser/many";
 import { formatErrorPosition } from "../util/format";
@@ -13,9 +13,9 @@ export type EnumerationNode = {
   children: Array<EnumerationItemNode>;
 };
 
-const enumerationContent = (specs?: ParseTagSpecs) => many(enumerationItem(specs));
+const enumerationContent = (specs?: ParserConfig) => many(enumerationItem(specs));
 
-function enumeration(targetTag?: string, specs?: ParseTagSpecs): Parser<EnumerationNode> {
+function enumeration(targetTag?: string, specs?: ParserConfig): Parser<EnumerationNode> {
   return (input: string) => {
     const openTag = openingTag(input);
     if(openTag.status === "fail") {

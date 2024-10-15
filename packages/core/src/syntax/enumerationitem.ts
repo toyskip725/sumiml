@@ -5,7 +5,7 @@ import { Parser } from "../parser/parser";
 import str from "../parser/str";
 import enumeration, { EnumerationNode } from "./enumeration";
 import markup, { MarkupNode } from "./markup";
-import { ParseTagSpecs } from "./specs";
+import { ParserConfig } from "./parserConfig";
 import textContent, { TextContentNode } from "./textContent";
 
 export type EnumerationItemContentNode = TextContentNode | MarkupNode | EnumerationNode;
@@ -14,7 +14,7 @@ export type EnumerationItemNode = {
   content: Array<EnumerationItemContentNode>;
 };
 
-const enumerationItem = (specs?: ParseTagSpecs): Parser<EnumerationItemNode> => {
+const enumerationItem = (specs?: ParserConfig): Parser<EnumerationItemNode> => {
   return (input: string) => {
     // start
     const enumerationItemStartPoint = str("</> ");

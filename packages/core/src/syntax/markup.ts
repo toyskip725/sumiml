@@ -2,7 +2,7 @@ import { Parser } from "../parser/parser";
 import str from "../parser/str";
 import { formatErrorPosition } from "../util/format";
 import openingTag from "./openingTag";
-import { ParseTagSpecs } from "./specs";
+import { ParserConfig } from "./parserConfig";
 import textContent from "./textContent";
 
 export type MarkupNode = {
@@ -12,7 +12,7 @@ export type MarkupNode = {
   content: string;
 };
 
-function markup(targetTag?: string, specs?: ParseTagSpecs): Parser<MarkupNode> {
+function markup(targetTag?: string, specs?: ParserConfig): Parser<MarkupNode> {
   return (input: string) => {
     const openTag = openingTag(input);
     if(openTag.status === "fail") {

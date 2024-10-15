@@ -1,8 +1,8 @@
 import { Parser } from "../parser/parser";
 import scope, { ScopeNode } from "./scope";
-import { ParseTagSpecs } from "./specs";
+import { ParserConfig } from "./parserConfig";
 
-function document(specs?: ParseTagSpecs): Parser<ScopeNode> {
+function document(specs?: ParserConfig): Parser<ScopeNode> {
   return scope("Document", specs);
 }
 

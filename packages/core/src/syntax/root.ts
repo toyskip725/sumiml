@@ -2,7 +2,7 @@ import directive, { DirectiveNode } from "./directive";
 import frontmatter, { FrontmatterNode } from "./frontmatter";
 import document from "./document";
 import { ScopeNode } from "./scope";
-import { ParseTagSpecs } from "./specs";
+import { ParserConfig } from "./parserConfig";
 import { Parser } from "../parser/parser";
 import { crlf } from "./newline";
 
@@ -14,7 +14,7 @@ export type RootNode = {
   content: ScopeNode;
 };
 
-function root (specs: ParseTagSpecs): Parser<RootNode> {
+function root (specs: ParserConfig): Parser<RootNode> {
   return (input: string) => {
     let rest = input;
     

@@ -3,7 +3,7 @@ import many from "../parser/many";
 import or from "../parser/or";
 import str from "../parser/str";
 import markup, { MarkupNode } from "./markup";
-import { ParseTagSpecs } from "./specs";
+import { ParserConfig } from "./parserConfig";
 import textContent, { TextContentNode } from "./textContent";
 import map from "../parser/map";
 import list, { ListNode } from "./list";
@@ -14,7 +14,7 @@ export type ListItemNode = {
   content: Array<ListItemContentNode>;
 };
 
-const listItem = (specs?: ParseTagSpecs): Parser<ListItemNode> => {
+const listItem = (specs?: ParserConfig): Parser<ListItemNode> => {
   return (input: string) => {
     // start
     const listItemStartPoint = str("</> ");
