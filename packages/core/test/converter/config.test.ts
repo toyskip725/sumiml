@@ -13,11 +13,13 @@ describe("marge config", () => {
     const configs: ConverterConfig[] = [
       {
         scope: { "Section": htmlSection },
+        enumeration: {},
         display: { "Math": htmlMath },
         markup: { "Strong": htmlStrong },
       },
       {
         scope: { "Subsection": htmlSubsection },
+        enumeration: {},
         display: {},
         markup: { "Link": htmlLink },
       },
@@ -32,6 +34,7 @@ describe("marge config", () => {
         "Section": htmlSection,
         "Subsection": htmlSubsection
       },
+      enumeration: {},
       display: {
         "Math": htmlMath
       },
@@ -47,11 +50,13 @@ describe("marge config", () => {
     const configs: ConverterConfig[] = [
       {
         scope: { "Section": htmlSection },
+        enumeration: {},
         display: { "Math": htmlMath },
         markup: { "Strong": htmlStrong },
       },
       {
         scope: { "Section": htmlSection },
+        enumeration: {},
         display: { "Math": htmlMath },
         markup: { "Strong": htmlStrong },
       },
@@ -65,6 +70,7 @@ describe("marge config", () => {
       scope: {
         "Section": htmlSection,
       },
+      enumeration: {},
       display: {
         "Math": htmlMath
       },

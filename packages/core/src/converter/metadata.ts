@@ -7,6 +7,7 @@ export type Metadata = {
 function metadata (input: string): Metadata {
   const parser = root({
     scope: [],
+    enumeration: [],
     display: [],
     markup: [],
   });

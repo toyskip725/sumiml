@@ -6,6 +6,7 @@ import { HTMLConverter } from "./converter";
 export const mergeConfig = (configs: ConverterConfig[]): ConverterConfig => {
   const result: ConverterConfig = {
     scope: {},
+    enumeration: {},
     display: {},
     markup: {},
   };
@@ -16,6 +17,13 @@ export const mergeConfig = (configs: ConverterConfig[]): ConverterConfig => {
         continue;
       }
       result.scope[spec] = config.scope[spec];
+    }
+
+    for (let spec in config.enumeration) {
+      if (result.enumeration[spec]) {
+        continue;
+      }
+      result.enumeration[spec] = config.enumeration[spec];
     }
 
     for (let spec in config.display) {
@@ -42,6 +50,7 @@ function htmlCompiler (configs?: ConverterConfig[]): HTMLConverter {
   return (input: string) => {
     const parser = root({
       scope: [...Object.keys(compilerConfig.scope)],
+      enumeration: [...Object.keys(compilerConfig.enumeration)],
       display: [...Object.keys(compilerConfig.display)],
       markup: [...Object.keys(compilerConfig.markup)],
     });
