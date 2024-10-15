@@ -1,5 +1,6 @@
 import { HTMLGenerator, HTMLGeneratorFactory, HTMLReducerGenerator } from "../generator/generator";
 import htmlBlockquote from "../html/blockquote";
+import htmlDocument from "../html/document";
 import htmlEmphasis from "../html/emphasis";
 import htmlLink from "../html/link";
 import htmlList from "../html/list";
@@ -22,6 +23,7 @@ export type ConverterConfig = {
 };
 
 export const coreScopeConfig = {
+  "Document": htmlDocument,
   "Section": htmlSection,
   "Subsection": htmlSubsection,
   "Subsubsection": htmlSubsubsection,

@@ -9,13 +9,15 @@ import htmlLink from '../../src/html/link';
 import htmlMath from '../../src/html/math';
 import htmlStrong from '../../src/html/strong';
 import htmlList from '../../src/html/list';
+import htmlDocument from '../../src/html/document';
 
 describe("root: html generator", () => {
   test("success1", async () => {
     // Arrange
     const input = await readFile(`${process.cwd()}/packages/core/example/sample1.suml`, { encoding: 'utf8' });
     const parser = root({
-      scope: ["Section"],
+      scope: ["Document", "Section"],
+      enumeration: [],
       display: [],
       markup: ["Strong"],
     });
@@ -26,6 +28,7 @@ describe("root: html generator", () => {
 
     const generator = htmlRoot({
       scope: {
+        "Document": htmlDocument,
         "Section": htmlSection,
       },
       enumeration: {},
@@ -51,7 +54,8 @@ describe("root: html generator", () => {
     // Arrange
     const input = await readFile(`${process.cwd()}/packages/core/example/sample2.suml`, { encoding: 'utf8' });
     const parser = root({
-      scope: ["Section", "Subsection", "Subsubsection"],
+      scope: ["Document", "Section", "Subsection", "Subsubsection"],
+      enumeration: [],
       display: ["Math"],
       markup: ["Strong", "Link"],
     });
@@ -62,6 +66,7 @@ describe("root: html generator", () => {
 
     const generator = htmlRoot({
       scope: {
+        "Document": htmlDocument,
         "Section": htmlSection,
         "Subsection": htmlSubsection,
         "Subsubsection": htmlSubsubsection,
@@ -92,7 +97,8 @@ describe("root: html generator", () => {
     // Arrange
     const input = await readFile(`${process.cwd()}/packages/core/example/sample3.suml`, { encoding: 'utf8' });
     const parser = root({
-      scope: ["Section"],
+      scope: ["Document", "Section"],
+      enumeration: [],
       display: [],
       markup: [],
     });
@@ -103,6 +109,7 @@ describe("root: html generator", () => {
 
     const generator = htmlRoot({
       scope: {
+        "Document": htmlDocument,
         "Section": htmlSection,
       },
       enumeration: {
