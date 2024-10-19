@@ -25,7 +25,7 @@ const htmlProof: HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeConte
 <script>
   const button${id} = document.getElementById('${id}/button');
   const content${id} = document.getElementById('${id}/content');
-  button.addEventListener("click", (e) => {
+  button${id}.addEventListener("click", (e) => {
     const isOpen = button${id}.innerText === "証明";
     button${id}.innerText = isOpen ? "証明を表示" : "証明";
     content${id}.style.display = isOpen ? "none" : "block";
