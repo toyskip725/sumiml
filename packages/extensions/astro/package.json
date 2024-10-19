@@ -4,7 +4,9 @@
   "type": "module",
   "main": "src/index.ts",
   "dependencies": {
-    "@sumiml/core": "^0.1.0"
+    "@sumiml/core": "^0.1.0",
+    "@sumiml/math": "^0.1.0",
+    "@sumiml/util": "^0.1.0"
   },
   "devDependencies": {
     "astro": "^4.15.11",
