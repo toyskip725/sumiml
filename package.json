@@ -11,6 +11,9 @@
     "packages/extensions/sumiml-syntax-vscode",
     "packages/extensions/astro"
   ],
+  "scripts": {
+    "pack:all": "npm pack -w packages/core && npm pack -w packages/math && npm pack -w packages/util && npm pack packages/extensions/astro"
+  },
   "devDependencies": {
     "@types/node": "^22.5.5",
     "tsx": "^4.19.1",

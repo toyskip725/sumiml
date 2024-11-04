@@ -19,18 +19,18 @@ const htmlProof: HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeConte
     }
 
     const id = getRandomId();
-    const buttonHtml = `<button id="${id}/button">証明</button>`;
-    const contentHtml = `<div id="${id}/content" class="definition-content">${success.map(output => output.html).join("")}</div>`;
+    const buttonHtml = `<button id="${id}/button" class="proof-button">証明</button>`;
+    const contentHtml = `<div id="${id}/content" class="proof-content">${success.map(output => output.html).join("")}</div>`;
     const script = `
-    <script>
-      const button = document.getElementById('${id}/button');
-      const content = document.getElementById('${id}/content');
-      button.addEventListener("click", (e) => {
-        const isOpen = button.innerText === "証明";
-        button.innerText = isOpen ? "証明を表示" : "証明";
-        content.style.display = isOpen ? "none" : "block";
-      });
-    </script>`;
+<script>
+  const button${id} = document.getElementById('${id}/button');
+  const content${id} = document.getElementById('${id}/content');
+  button${id}.addEventListener("click", (e) => {
+    const isOpen = button${id}.innerText === "証明";
+    button${id}.innerText = isOpen ? "証明を表示" : "証明";
+    content${id}.style.display = isOpen ? "none" : "block";
+  });
+</script>`;
     
     return {
       status: "success",

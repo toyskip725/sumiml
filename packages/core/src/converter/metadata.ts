@@ -1,24 +1,33 @@
-import root from "../syntax/root";
+import directive from "../syntax/directive";
+import frontmatter from "../syntax/frontmatter";
+import { crlf } from "../syntax/newline";
 
 export type Metadata = {
   frontmatter: any;
 };
 
 function metadata (input: string): Metadata {
-  const parser = root({
-    scope: [],
-    enumeration: [],
-    display: [],
-    markup: [],
-  });
+  let rest = input;
+    
+  // directive
+  const directiveResult = directive(rest);
+  if (directiveResult.status === "fail") {
+    throw new Error(`invalid SumiML format: ${directiveResult.message}`);
+  }
+  const remove = crlf(directiveResult.rest);
+  if (remove.status === "fail") {
+    throw new Error(`invalid SumiML format: : ${remove.message}`);
+  }
+  rest = remove.rest;
 
-  const rootNode = parser(input);
-  if (rootNode.status === "fail") {
-    throw new Error("parse failed");
+  // frontmatter
+  const frontmatterResult = frontmatter(rest);
+  if (frontmatterResult.status === "fail") {
+    throw new Error(`parse failed: ${frontmatterResult.message}`);
   }
 
   return {
-    frontmatter: rootNode.data.frontmatter,
+    frontmatter: frontmatterResult.data.attributes,
   };
 };
 

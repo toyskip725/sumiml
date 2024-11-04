@@ -38,7 +38,7 @@ const htmlSubsubsection: HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<Sc
     return {
       status: "success",
       meta: {},
-      html: `<h3>${node.attributes.title}</h3><div>${success.map(output => output.html).join("")}</div>`,
+      html: `<h3 class="subsubsection-heading">${node.attributes.title}</h3><div>${success.map(output => output.html).join("")}</div>`,
     };
   };
 };

@@ -27,7 +27,7 @@ const htmlSection: HTMLGeneratorFactory<ScopeNode, HTMLReducerGenerator<ScopeCon
     return {
       status: "success",
       meta: {},
-      html: `<section><h1>${node.attributes.title}</h1><div>${success.map(output => output.html).join("")}</div></section>`,
+      html: `<section><h1 class="section-heading">${node.attributes.title}</h1><div>${success.map(output => output.html).join("")}</div></section>`,
     };
   };
 };
