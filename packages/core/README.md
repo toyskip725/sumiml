@@ -1,6 +1,6 @@
 # @sumiml/core
 
-This module includes core system (parser / generator / config interface) and basic generator implementation of **SumiML**.
+This module includes core system (parser / generator / config interface) and basic generator implementation of sumiml.
 
 
 # 1. Core Concepts
@@ -129,7 +129,7 @@ In this example,
 `<markup>` describes specific inline-level text fragment in the document, which should be distinguished from other plain text, such as *Bold-style* element or *Link* element. `<markup>` block has no child node: in other words, the tag of `<markup>` surrounds only inline text.
 
 
-# 3. `@sumiml/core` Elements
+# 3. @sumiml/core Elements
 
 ## scope
 
