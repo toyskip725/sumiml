@@ -15,5 +15,5 @@
 
 | name | description |
 | --- | --- |
-| [sumiml-syntax-vscode](packages/extensions/sumiml-syntax-vscode/) | includes Visual Studio Code extension(syntax highlight / snippets) |
 | [@sumiml/astro-integration](packages/extensions/astro/) | includes Astro integration plugin for SumiML |
+| [syntax and snippets](packages/extensions/syntax%20and%20snippets/) | includes syntax highlight / snippets for VSCode |
