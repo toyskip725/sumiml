@@ -1,70 +1,129 @@
 # @sumiml/core
 
-## Example
+This module includes core system (parser / generator / config interface) and basic generator implementation of **SumiML**.
+
+
+# 1. Core Concepts
+
+## 1.1. Abstract syntax tree
+sumiml core system is designed based on the concept of **AST**(Abstract Syntax Tree)-based parsing / generating.
+
+``` mermaid
+flowchart LR
+  sumiml["sumiml (.suml)"] -- parse --> ast([AST]);
+  ast -- generate --> html["HTML (.html)"];
+  ast -- generate --> tex["TeX (.tex)"]
+```
+
+- The sumiml **parser** translates a single sumiml document into AST.
+- The sumiml **generator** translates a document-level AST into some other text-format, such as HTML or TeX.
+
+## 1.2. Plugins
+
+
+
+# 2. Core Syntax
+
+## 2.1. Example
+
+Typically a sumiml document `.suml` is written in the format like the following example:
 
 ```
 <SumiML version="1.0" />
 <Frontmatter>
 title: "SumiML sample"
+created: 2024/xx/xx
 </Frontmatter>
+
 <Document>
+
 <Section title="Section 1">
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 </Section>
-..
+...
+
 </Document>
 ```
 
-## Syntax
+## 2.2. Document structure
 
-### text and block
+A SumiML document should have single `<root>` structure, as follows:
 
 ```
-block ::= markup | scope
+<root> ::= <directive> <frontmatter> <document>
+<directive> ::= '<SumiML version="<version>" />'
+<frontmatter> ::= '<Frontmatter>' <yaml> '</Frontmatter>'
 ```
-`block` is scoped context in the document, typically surrounded by **tag**. A tag has a **name**(this explains the role of the block) and may have some **attributes**:
+
+where 
+- `<version>` requires major / minor version (for example, `1.0`).
+- `<yaml>` requires yaml(`.yml`)-format text.
+
+
+
+## 2.3. Text and tag elements
+
+### 2.3.1. Tag
+
+**Tag** is the sumiml document element surrounded by specific character `<` and `>` .
+
+(1) A tag has two forms: **opening tag** form and **closing tag** from. Any opening tag must have corresponding closing tag in the document.
+
+(2) A tag has a **name**(this explains the role of the block) and may have some **attributes**.
+
 ```
 // Example
-<MyBlock title="sample" visible=True>Hello</MyBlock>
+<Myelement title="sample" visible=True>
+Hello
+</Myelement>
 ```
-In this example, `MyBlock` block has two attributes `title` and `visible`, and has content `Hello` (actually which is classified as `text`).
+In this example, 
 
+- the name of the tag is `Myelement`.
+- the opening tag of the tag is `<Myelement title="sample" visible=True>`.
+- the closing tag of the tag is `</Myelement>`.
+- the tag has two attributes `title` and `visible`.
 
-`markup` and `scope` are subcategories of `block`.
+### 2.3.2. Newline and text
 
-- `scope` block defines some specific area in the document. A `scope` may contain other `scope`-level blocks as well as plain text and `markup`.
-- `markup` block describes specific text-fragment in the document, which should be distinguished from other plain text: such as **Bold-style** element, **Link** element. `markup` block has no child node: in other words, the tag of `markup` surrounds only `text`.
+**Text** is the sumiml document element without opening / closing tag.
 
+- `<inline-text>` (also called **text content**) cannot contain newline symbols.
+- `<block-text>` (also called **raw text**) can contain newline symbols.
 
-`text` is a plain text which is not a `block`. `text` has no child node.
+### 2.3.3. Tag elements
 
-### root
+**Tag element** is the sumiml document element with opening / closing tag. There are four basic category in tag element: **scope**, **enumeration**, **display**, and **markup**.
 
-```
-root ::= directive frontmatter? document?
-```
-
-### frontmatter
-
-```
-frontmatter ::= <Frontmatter> yaml </Frontmatter>
-```
-where `yaml` requires yaml(`.yml`)-format text.
-
-### document
+#### scope
 
 ```
-document ::= <Document> ( text | block )* </Document>
+<scope> ::= <opening-tag> (<scope> | <enumeration> | <display> | <markup> | <text>)+ <closing-tag>
+```
+`<scope>` defines some specific subarea in the document, such as *Section* element. In sumiml `<scope>` is the most general and fundamental tag element, in the sense that `<scope>` *accepts any element as its child*. Thus `<scope>` is one of the recursive element in sumiml, because `<scope>` also accepts any other `<scope>` as its child. 
+
+#### enumeration
+
+```
+<enumeration> ::= <opening-tag> (<enumeration> | <enumeration-item>)+ <closing-tag>
 ```
 
-### section, subsetion, and subsubsection
+`<enumeration>` represents some restricted recursive structure in the document, such as ordered / unordered *List* element.
+
+#### display
 
 ```
-section ::= <Section> ( text | block | subsection )* </Section>
-subsection ::= <Subsection>  ( text | block | subsubsection )* </Subsection>
-subsubsection ::= <Subsubsection> ( text | block )* </Subsubsection>
+<display> ::= <opening-tag> <block-text> <closing-tag>
+```
+`<display>` describes specific block-level text fragment in the document, which should be distinguished from other plain text block, such as *Blockquote* element.
+
+#### markup
+
+```
+<markup> ::= <opening-tag> <inline-text> <closing-tag>
 ```
 
+`<markup>` describes specific inline-level text fragment in the document, which should be distinguished from other plain text, such as *Bold-style* element or *Link* element. `<markup>` block has no child node: in other words, the tag of `<markup>` surrounds only inline text.
