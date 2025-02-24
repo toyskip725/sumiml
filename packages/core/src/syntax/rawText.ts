@@ -1,29 +1,24 @@
 import { Parser } from "../parser/parser";
-import character from "../parser/character";
 import { TextContentNode } from "./textContent";
 import { formatErrorPosition } from "../util/format";
 
 const rawText: Parser<TextContentNode> = (input: string) => {
-  const tagStartPoint = character("<");
-
-  const data: string[] = [];
+  let index: number = 0;
   let rest: string = input;
   while(true) {
     if (rest === "") {
       break;
     }
 
-    const istagStartPoint = tagStartPoint(rest);
-
-    if (istagStartPoint.status === "success") {
+    if (rest.startsWith("<")) {
       break;
     }
 
-    data.push(rest.slice(0, 1));
+    index++;
     rest = rest.slice(1);
   }
 
-  if(data.length === 0) {
+  if(index === 0) {
     return {
       status: "fail",
       message: `[rawtext] there is no content to match: ${formatErrorPosition(rest)}`,
@@ -34,7 +29,7 @@ const rawText: Parser<TextContentNode> = (input: string) => {
     status: "success",
     data: {
       type: "text",
-      content: data.join(""),
+      content: input.slice(0, index),
     },
     rest: rest,
   };

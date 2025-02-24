@@ -1,5 +1,4 @@
 import { Parser } from "../parser/parser";
-import character from "../parser/character";
 import newline from "./newline";
 import { formatErrorPosition } from "../util/format";
 
@@ -9,9 +8,7 @@ export type TextContentNode = {
 };
 
 const textContent: Parser<TextContentNode> = (input: string) => {
-  const tagStartPoint = character("<");
-
-  const data: string[] = [];
+  let index: number = 0;
   let rest: string = input;
   while(true) {
     if (rest === "") {
@@ -19,17 +16,16 @@ const textContent: Parser<TextContentNode> = (input: string) => {
     }
 
     const isNewline = newline(rest);
-    const istagStartPoint = tagStartPoint(rest);
 
-    if (isNewline.status === "success" || istagStartPoint.status === "success") {
+    if (isNewline.status === "success" || rest.startsWith("<")) {
       break;
     }
 
-    data.push(rest.slice(0, 1));
+    index++;
     rest = rest.slice(1);
   }
 
-  if(data.length === 0) {
+  if(index === 0) {
     return {
       status: "fail",
       message: `[textcontent] there is no content to match: ${formatErrorPosition(rest)}`,
@@ -40,7 +36,7 @@ const textContent: Parser<TextContentNode> = (input: string) => {
     status: "success",
     data: {
       type: "text",
-      content: data.join(""),
+      content: input.slice(0, index),
     },
     rest: rest,
   };
