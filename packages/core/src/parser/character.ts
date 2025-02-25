@@ -7,7 +7,7 @@ function character(targetChar: string): Parser<string> {
   }
   
   return (input: string) => {
-    if ([...input][0] !== targetChar) {
+    if (!input.startsWith(targetChar)) {
       return { status: "fail", message: `[character] match failed: ${formatErrorPosition(input)}` };
     } 
 
